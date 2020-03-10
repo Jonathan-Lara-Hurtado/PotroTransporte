@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Administrativo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="{% static 'potrotransporte/bootstrap/css/bootstrap.css' %}">
+  <script src="{% static 'potrotransporte/jquery.min.js' %}"></script>
+  <script src="{% static 'potrotransporte/bootstrap/js/bootstrap.js' %} "></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md fixed-top-sm  bg-dark navbar-dark">
+    <a href="{% url 'index' %}" class="navbar-brand">
+        <img src="{% static 'potrotransporte/potroLogo.png' %}" width="30%"> Potro Transporte
+    </a>
+</nav>
+
+
+<div id="container" class="container">
+<div class="col-sm-6 offset-sm-3 text-center">
+ <h1 class="display-4">Registro Administrativo</h1>
+<div class="info-form">
+
+<form action="#" class="form-inlin justify-content-center" method="post">
+    {% csrf_token %}
+
+        <div class="form-group">
+        <label for="{{ form.your_names.id_for_label }}">Nombre</label>
+        {{form.your_names}}
+     </div>
+
+            <div class="form-group">
+        <label for="{{ form.your_last_names.id_for_label }}">Apellidos</label>
+        {{form.your_last_names}}
+     </div>
+
+
+    <div class="form-group">
+        <label for="{{ form.your_email.id_for_label }}">Correo Electronico</label>
+        {{form.your_email}}
+     </div>
+
+    <div class="form-group">
+        <label for="{{ form.your_password.id_for_label }}">Constraseña</label>
+        {{form.your_password}}
+     </div>
+
+    <div class="form-group">
+        <label for="{{ form.repeat_password.id_for_label }}">Constraseña</label>
+        {{form.repeat_password}}
+     </div>
+
+<div class="alert alert-light" role="alert">
+ {{form.non_field_errors}}
+</div>
+
+
+
+<button type="submit" class="btn btn-dark">Registrar</button>
+</form>
+    </div>
+</div>
+
+</div>
+
+
+
+</body>
+</html>

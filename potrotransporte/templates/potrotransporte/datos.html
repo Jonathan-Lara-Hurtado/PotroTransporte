@@ -1,0 +1,62 @@
+{% extends "potrotransporte/tmpindex.html" %}
+
+
+{%block titulo%}
+Datos
+{%endblock%}
+{%block cuerpo%}
+<div class="container-fluid">
+    <div class="row pt-2">
+        <div class="col ">
+                <div class="card mb-5">
+                    <div class="card-header bg-dark">
+                    <h1 class="h1 mb-0 text-gray-800 text-light">Mis Datos</h1>
+                    </div>
+                          {% if user.is_authenticated%}
+                            <div class="row m-3">
+                               <div class="col">
+                                <label>Nombres: {{user.first_name}}</label>
+                               </div>
+                              <div class="col">
+                                <label>Apellidos:{{user.last_name}}</label>
+                               </div>
+
+                                <div class="col">
+                                <label>Correo:{{user.email}}</label>
+                               </div>
+                            </div>
+                           {%endif%}
+                </div>
+        </div>
+    </div>
+
+
+
+        <div class="row">
+        <div class="col ">
+                <div class="card mb-5">
+                    <div class="card-header bg-dark">
+                    <h1 class="h1 mb-0 text-gray-800 text-light">Datos Escuela</h1>
+                    </div>
+                          {% if user.is_authenticated%}
+
+                                {%if  user.datospersonales_set.all %}
+                                si tengo
+                                {%else%}
+                                <button class="btn btn-primary">Dar de alta informacion</button>
+                                {% endif%}
+
+
+                           {%endif%}
+                </div>
+        </div>
+    </div>
+
+
+
+</div>
+{%endblock%}
+
+
+{%block pie%}
+{%endblock%}

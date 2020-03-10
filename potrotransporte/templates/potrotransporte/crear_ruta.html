@@ -1,0 +1,223 @@
+{% extends "potrotransporte/tmpindex.html" %}
+{% load static %}
+{%block titulo%}
+Crear Ruta
+{%endblock%}
+
+{%block cuerpo%}
+
+
+<div class="container-fluid">
+
+<div class="row mt-3">
+<div class="col-xl-9 col-xl-12 mb-5">
+
+<div class="card border-left-primary shadow  ">
+   <div class="card-header bg-dark"><h1 class="h1 mb-0 text-gray-800 text-light">Operador</h1></div>
+
+
+     <div class="card border-left-primary  shadow m-3 overflow-auto">
+        <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Tabla de operadores</h1></div>
+
+           <table id="example" class="table table-striped table-bordered " style="width:100%">
+
+                  <thead class="thead-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Licencia</th>
+                <th>telefono</th>
+                <th>Dirrecion</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+
+           </table>
+
+
+
+    </div>
+
+        <div class="card border-left-primary shadow m-3">
+        <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Agregar</h1></div>
+
+    </div>
+
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+
+<div class="container-fluid">
+
+<div class="row mt-3">
+<div class="col-xl-9 col-xl-12 mb-5">
+
+
+
+
+<div class="card border-left-primary shadow  ">
+   <div class="card-header bg-dark"><h1 class="h1 mb-0 text-gray-800 text-light">Transporte</h1></div>
+
+    <div class="card border-left-primary shadow m-3">
+        <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Tabla Transporte</h1></div>
+
+         <table id="example" class="table table-striped table-bordered " style="width:100%">
+
+                  <thead class="thead-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Matricula</th>
+                <th>Operador</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+
+           </table>
+
+
+    </div>
+
+        <div class="card border-left-primary shadow m-3">
+        <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Agregar</h1></div>
+
+    </div>
+
+    </div>
+
+</div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+<div class="container-fluid">
+
+<div class="row mt-3">
+<div class="col-xl-9 col-xl-12 mb-5">
+
+    <div class="card border-left-primary shadow  ">
+   <div class="card-header bg-dark"><h1 class="h1 mb-0 text-gray-800 text-light">Ruta</h1></div>
+
+<div class="card border-left-primary shadow  m-3">
+
+
+   <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Agregar</h1></div>
+
+     <form class="m-3" action="#" method="post">
+{% csrf_token %}
+      <div class="form-row">
+            <div class="form-group col-md-6">
+       <label for="{{ form.NombreRuta.id_for_label }}">Nombre Ruta:</label>
+            {{form.NombreRuta}}
+            </div>
+
+          <div class="form-group col-md-6">
+       <label for="{{ form.Horario.id_for_label }}">Horario</label>
+            {{form.Horario}}
+            </div>
+
+          <div class="form-group col-md-6">
+       <label for="{{ form.Longitud.id_for_label }}">Longitud</label>
+            {{form.Longitud}}
+            </div>
+
+                    <div class="form-group col-md-6">
+       <label for="{{ form.Latitud.id_for_label }}">Latitud</label>
+            {{form.Latitud}}
+            </div>
+
+      </div>
+
+          <div class="card border-left-primary shadow overflow-auto">
+         <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Seleccione la Ruta</h1></div>
+        <div id="mapid" style="width: 600px; height: 400px;"></div>
+    </div>
+  <button type="submit" class="btn btn-primary m-3" value="Submit">Agregar</button>
+
+     </form>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+<script>
+
+  var greenIcon = L.icon({
+    iconUrl: "{%static 'potrotransporte/potroParada.png'%}",
+    iconSize:     [68, 45],// size of the icon
+});
+
+	var mymap = L.map('mapid').setView([19.298079, -98.95566], 15);
+
+  	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+
+
+
+
+ {%if rutas%}
+    {%for rt in rutas%}
+
+    L.marker([{{rt.Latitud}},{{rt.Longitud}}],{icon:greenIcon}).addTo(mymap)
+	.bindPopup("<b>"+"{{rt.NombreRuta}}"+"</b><br />"+"{{rt.Horario}}" ).openPopup();
+
+    {%endfor%}
+    {%endif%}
+
+
+var click=0;
+var estacion = L.marker([19.2979537431625,-98.956743478775],{icon:greenIcon}).addTo(mymap)
+	.bindPopup("<b>Esperando Nombre</b><br />Esperando Horario.").openPopup();
+
+
+
+
+mymap.on('click', function(ev) {
+    mymap.removeLayer(estacion);
+    document.getElementById("id_Longitud").value = ev.latlng.lng;
+    document.getElementById("id_Latitud").value = ev.latlng.lat;
+    var nombre = $('#id_NombreRuta').val();
+    var horario = $('#id_Horario').val();
+    var texto = "<b>¡"+nombre+"!</b><br />"+horario
+    estacion = L.marker([ev.latlng.lat,ev.latlng.lng],{icon:greenIcon}).addTo(mymap).bindPopup(texto).openPopup();
+//    alert(ev.latlng); // ev is an event object (MouseEvent in this case)
+});
+
+
+
+
+
+</script>
+{%endblock%}
+{%block pie%}
+{%endblock%}
+
+
+
+

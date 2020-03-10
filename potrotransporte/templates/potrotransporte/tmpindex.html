@@ -1,0 +1,165 @@
+{% load auth_extras%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block titulo%}{%endblock%}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <link rel="stylesheet" type="text/css" href="{% static 'potrotransporte/bootstrap/css/bootstrap.css' %}">
+      <script src="{% static 'potrotransporte/jquery.min.js' %}"></script>
+      <script src="{% static 'potrotransporte/bootstrap/js/bootstrap.js' %} "></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+
+</head>
+
+{%block cabezera%}
+<header class="navbar navbar-expand-lg navbar-dark bg-dark">
+ <a class="navbar-brand" href="/">
+    <img src="{% static 'potrotransporte/potroLogo.png' %}"  width="35%"  class="d-inline-block align-top" alt="">
+    Potro Transporte
+  </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="nav navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+            <li class="nav-item dropdown active">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{user.first_name}}</a>
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{%url 'datos'%}">Datos</a>
+
+                    {%if request.user|has_group:"Administrativos" %}
+                    <a class="dropdown-item" href="{%url 'crear_ruta'%}">
+                        Crear Ruta
+                    </a>
+
+                    {%endif%}
+
+                    <a class="dropdown-item" href="reservaruta">
+                        Mapa de ruta
+                    </a>
+
+                </div>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'desconectar' %}">Desconectar</a>
+            </li>
+
+           {%else%}
+      <li class="nav-item active">
+        <a class="nav-link" href="{%url 'registro'%}">Registro <span class="sr-only">(current)</span></a>
+      </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{%url 'acceso'%}">Iniciar Sesión <span class="sr-only">(current)</span></a>
+        </li>
+        {%endif%}
+    </ul>
+    </div>
+</header>
+{%endblock%}
+
+<body>
+{%block cuerpo%}
+
+
+
+{%endblock%}
+</body>
+
+
+{%block pie%}
+    <!-- Footer -->
+      <footer class="page-footer font-small unique-color-dark bg-dark navbar-dark text-white">
+
+
+            <div style="background-color: #6351ce;">
+    <div class="container">
+
+      <!-- Grid row-->
+      <div class="row py-4 d-flex align-items-center">
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+          <h6 class="mb-0">¡Conéctate con nosotros en las redes sociales!</h6>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-7 text-center text-md-right">
+
+          <!-- Facebook -->
+          <a class="fb-ic">
+               <img src="{% static 'potrotransporte/redsocial/logofacebook.png' %}" class="d-inline-block align-top" alt="">
+          </a>
+          <!-- Twitter -->
+          <a class="tw-ic">
+              <img src="{% static 'potrotransporte/redsocial/logotwi.png' %}" class="d-inline-block align-top" alt="">
+          </a>
+          <!--Instagram-->
+          <a class="ins-ic">
+            <img src="{% static 'potrotransporte/redsocial/logoinstagram.png' %}" class="d-inline-block align-top" alt="">
+          </a>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row-->
+
+    </div>
+  </div>
+
+
+
+           <hr>
+
+  <!-- Call to action -->
+  <ul class="list-unstyled list-inline text-center py-2">
+    <li class="list-inline-item">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'potrotransporte/logoUAEMEX.png' %}"  width="85%"  class="d-inline-block align-top" alt="">
+         </a>
+    </li>
+
+    <li class="list-inline-item">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'potrotransporte/logoCuUAEMEX.png' %}"  width="85%"  class="d-inline-block align-top" alt="">
+             </a>
+
+        </li>
+
+
+
+  </ul>
+  <!-- Call to action -->
+
+  <hr>
+
+
+
+
+
+
+      </footer>
+{%endblock%}
+
+
+</html>
