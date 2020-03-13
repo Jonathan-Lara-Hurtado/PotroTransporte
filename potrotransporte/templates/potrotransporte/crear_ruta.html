@@ -42,6 +42,24 @@ Crear Ruta
         <div class="card border-left-primary shadow m-3">
         <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Agregar</h1></div>
 
+                 <form class="m-3" action="#" method="post">
+                    {% csrf_token %}
+
+                          <div class="form-row">
+                          {%for f in form2 %}
+                            <div class="form-group col-md-6">
+                            <label for="{{ f.id_for_label }}">{{f.name}}</label>
+                                {{f}}
+                            </div>
+                          {%endfor%}
+
+
+
+                      </div>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                 </form>
+
+
     </div>
 
 
@@ -89,6 +107,23 @@ Crear Ruta
 
         <div class="card border-left-primary shadow m-3">
         <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Agregar</h1></div>
+
+                     <form class="m-3" action="#" method="post">
+                    {% csrf_token %}
+
+                          <div class="form-row">
+                          {%for f in form3 %}
+                            <div class="form-group col-md-6">
+                            <label for="{{ f.id_for_label }}">{{f.label}}</label>
+                                {{f}}
+                            </div>
+                          {%endfor%}
+
+
+
+                      </div>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                 </form>
 
     </div>
 
@@ -141,11 +176,22 @@ Crear Ruta
             {{form.Latitud}}
             </div>
 
+            <div class="form-group col-md-6">
+       <label for="{{ form.Transporte.id_for_label }}">Transporte</label>
+            {{form.Transporte}}
+            </div>
+
+
       </div>
 
           <div class="card border-left-primary shadow overflow-auto">
          <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Seleccione la Ruta</h1></div>
-        <div id="mapid" style="width: 600px; height: 400px;"></div>
+
+        <div id="mapid"  class="m-3 over-flow" style="width: 600px; height: 400px;">
+
+        </div>
+
+
     </div>
   <button type="submit" class="btn btn-primary m-3" value="Submit">Agregar</button>
 
