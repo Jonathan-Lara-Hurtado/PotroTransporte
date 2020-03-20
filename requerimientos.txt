@@ -4,5 +4,6 @@ django-summernote
 mysqlclient==1.4.6
 django-stdimage
 docutils-python3
+django-extensions
 pygraphviz
-django-extensions pygraphviz
+
