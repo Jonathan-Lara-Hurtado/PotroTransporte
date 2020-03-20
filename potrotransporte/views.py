@@ -194,10 +194,16 @@ class VistaAgregarRuta(LoginRequiredMixin,TemplateView):
 
     def get(self, request, *args, **kwargs):
         rutas = Ruta.objects.all()
+        operador = Operador.objects.all()
+        transporte = Transporte.objects.all()
+
         return self.render_to_response({'form': self.form,
                                         'rutas':rutas,
                                         'form2':self.form2,
-                                        'form3':self.form3})
+                                        'form3':self.form3,
+                                        'ListaOperador':operador,
+                                        'ListaTransporte':transporte
+                                        })
 
     def post(self, resquest):
         print(resquest.POST)
