@@ -24,7 +24,9 @@ from django.contrib.auth.models import Group,Permission
 class VistaPrincipal(RedirectView):
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'potrotransporte/index.html', {"gato":"gg"})
+        rutas = Ruta.objects.all()
+        return render(request, 'potrotransporte/index.html', {"gato":"gg",
+                                                              "rutas":rutas})
 
 
 class VistaRegistroAdmin(RedirectView):

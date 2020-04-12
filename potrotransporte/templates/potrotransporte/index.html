@@ -21,7 +21,7 @@ PotroTransporte
         <div class="col-12 col-md-3">
 
             <div class="card ">
-                <div class="card-header bg-danger text-center">Anuncios</div>
+                <div class="card-header bg-warning text-center">Anuncios</div>
                 <div class="card-body bg-dark">
 
 
@@ -39,24 +39,22 @@ PotroTransporte
             <small>Donec id elit non mi porta.</small>
           </a>
 
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small>3 days ago</small>
-            </div>
-            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <small>Donec id elit non mi porta.</small>
-          </a>
-
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small>3 days ago</small>
-            </div>
-            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <small>Donec id elit non mi porta.</small>
-          </a>
-
+          <a href="#" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-muted">3 days ago</small>
+    </div>
+    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+    <small class="text-muted">Donec id elit non mi porta.</small>
+  </a>
+            <a href="#" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-muted">3 days ago</small>
+    </div>
+    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+    <small class="text-muted">Donec id elit non mi porta.</small>
+  </a>
 
         </div>
 
@@ -73,7 +71,7 @@ PotroTransporte
 
 
         <!--Inicio de atajos de menu -->
-        <div class="col">
+        <div class="col mt-3">
 
             <div class="card bg-dark">
                 <div class="card-body">
@@ -84,19 +82,38 @@ PotroTransporte
                     <div class="row">
 
                         <div class="col">
-                            <div class="card">
-                                <div class="card-header text-center">Ruta</div>
-                                <div class="card-body">
-                                    <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                            <div class="card ">
+                                <div class="card-header bg-warning text-center">Rutas</div>
+                                <div class="card-body ">
+
+
+                                    <div class="row">
+                                    <div class="col-12">
+                                        <div class="container fill">
+                                                   <div id="mapid">
+
+                                                    </div>
+                                    </div>
+
+                                        </div>
+
+                                        <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-block m-3">Crear</button>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-
-
                         </div>
+
+                    </div>
+
+
+                    <div class="row mt-3">
+
 
                          <div class="col">
                             <div class="card">
-                                <div class="card-header text-center">Ruta en Vivo</div>
+                                <div class="card-header bg-warning text-center">Ruta en Vivo</div>
                                 <div class="card-body">
                                   <button type="submit" class="btn btn-primary btn-block">Ver</button>
                                 </div>
@@ -105,14 +122,9 @@ PotroTransporte
 
                         </div>
 
-                    </div>
-
-
-                    <div class="row mt-3">
-
                         <div class="col">
                             <div class="card">
-                                <div class="card-header text-center">Cobro</div>
+                                <div class="card-header bg-warning text-center">Cobro</div>
                                 <div class="card-body">
                                       <button type="submit" class="btn btn-primary btn-block">Generar Cobro</button>
                                 </div>
@@ -123,7 +135,7 @@ PotroTransporte
 
                          <div class="col mt-3">
                             <div class="card">
-                                <div class="card-header text-center">Crear Anuncio</div>
+                                <div class="card-header bg-warning text-center">Crear Anuncio</div>
                                 <div class="card-body">
 
                                     <form>
@@ -161,6 +173,75 @@ PotroTransporte
 
 
 </main>
+
+
+
+
+<script>
+
+  var greenIcon = L.icon({
+    iconUrl: "{%static 'potrotransporte/potroParada.png'%}",
+    iconSize:     [68, 45],// size of the icon
+});
+
+	var mymap = L.map('mapid').setView([19.298079, -98.95566], 15);
+
+  	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+
+
+
+
+ {%if rutas%}
+    {%for rt in rutas%}
+
+    L.marker([{{rt.Latitud}},{{rt.Longitud}}],{icon:greenIcon}).addTo(mymap)
+	.bindPopup("<b>"+"{{rt.NombreRuta}}"+"</b><br />"+"{{rt.Horario}}" ).openPopup();
+
+    {%endfor%}
+    {%endif%}
+
+
+
+
+mymap.on('click', function(ev) {
+    mymap.removeLayer(estacion);
+    document.getElementById("id_Longitud").value = ev.latlng.lng;
+    document.getElementById("id_Latitud").value = ev.latlng.lat;
+    var nombre = $('#id_NombreRuta').val();
+    var horario = $('#id_Horario').val();
+    var texto = "<b>¡"+nombre+"!</b><br />"+horario
+    estacion = L.marker([ev.latlng.lat,ev.latlng.lng],{icon:greenIcon}).addTo(mymap).bindPopup(texto).openPopup();
+//    alert(ev.latlng); // ev is an event object (MouseEvent in this case)
+});
+
+
+
+var mapmargin = 50;
+$('#mymap').css("height", ($(window).height() - mapmargin));
+$(window).on("resize", resize);
+resize();
+function resize(){
+
+    if($(window).width()>=980){
+        $('#mymap').css("height", ($(window).height() - mapmargin));
+        $('#mymap').css("margin-top",50);
+    }else{
+        $('#mymap').css("height", ($(window).height() - (mapmargin+12)));
+        $('#mymap').css("margin-top",-21);
+    }
+
+}
+
+
+</script>
 
 
  {%else%}
