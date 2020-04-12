@@ -201,6 +201,12 @@ PotroTransporte
     iconSize:     [68, 45],// size of the icon
 });
 
+
+  var IconEscuela = L.icon({
+  iconUrl: "{%static 'potrotransporte/LogoMapaUAEMEX.png'%}",
+    iconSize:     [68, 45],// size of the icon
+  });
+
 	var mymap = L.map('mapid').setView([19.298079, -98.95566], 15);
 
   	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -220,12 +226,13 @@ PotroTransporte
     {%for rt in rutas%}
 
     L.marker([{{rt.Latitud}},{{rt.Longitud}}],{icon:greenIcon}).addTo(mymap)
-	.bindPopup("<b>"+"{{rt.NombreRuta}}"+"</b><br />"+"{{rt.Horario}}" ).openPopup();
+	.bindPopup("<b>"+"{{rt.NombreRuta}}"+"</b><br />"+"{{rt.Horario}}" );
 
     {%endfor%}
     {%endif%}
 
-
+ L.marker([19.29944833573925,-98.95651817321779],{icon:IconEscuela}).addTo(mymap)
+	.bindPopup("<b>UAEMEX</b><br />Valle de Chalco").openPopup();
 
 
 mymap.on('click', function(ev) {
