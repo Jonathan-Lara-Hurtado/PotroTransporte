@@ -217,48 +217,47 @@ Crear Ruta
                                 <div class="col-12">
 
                                     <form class="m-3" action="#" method="post">
-{% csrf_token %}
-      <div class="form-row">
-            <div class="form-group col-md-6">
-       <label for="{{ form.NombreRuta.id_for_label }}">Nombre Ruta:</label>
-            {{form.NombreRuta}}
-            </div>
+                                        {% csrf_token %}
+                                              <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                               <label for="{{ form.NombreRuta.id_for_label }}">Nombre Ruta:</label>
+                                                    {{form.NombreRuta}}
+                                                    </div>
 
-          <div class="form-group col-md-6">
-       <label for="{{ form.Horario.id_for_label }}">Horario</label>
-            {{form.Horario}}
-            </div>
+                                                  <div class="form-group col-md-6">
+                                               <label for="{{ form.Horario.id_for_label }}">Horario</label>
+                                                    {{form.Horario}}
+                                                    </div>
 
-          <div class="form-group col-md-6">
-       <label for="{{ form.Longitud.id_for_label }}">Longitud</label>
-            {{form.Longitud}}
-            </div>
+                                                  <div class="form-group col-md-6">
+                                               <label for="{{ form.Longitud.id_for_label }}">Longitud</label>
+                                                    {{form.Longitud}}
+                                                    </div>
 
-                    <div class="form-group col-md-6">
-       <label for="{{ form.Latitud.id_for_label }}">Latitud</label>
-            {{form.Latitud}}
-            </div>
+                                                            <div class="form-group col-md-6">
+                                               <label for="{{ form.Latitud.id_for_label }}">Latitud</label>
+                                                    {{form.Latitud}}
+                                                    </div>
 
-            <div class="form-group col-md-6">
-       <label for="{{ form.Transporte.id_for_label }}">Transporte</label>
-            {{form.Transporte}}
-            </div>
-
-
-      </div>
-
-          <div class="card border-left-primary shadow overflow-auto">
-         <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Seleccione la Ruta</h1></div>
-
-        <div id="mapid"  class="m-3 over-flow"  style="width: 50em; height: 40em;">
-
-        </div>
+                                                    <div class="form-group col-md-6">
+                                               <label for="{{ form.Transporte.id_for_label }}">Transporte</label>
+                                                    {{form.Transporte}}
+                                                    </div>
 
 
-    </div>
-  <button type="submit" class="btn btn-primary m-3" value="Submit">Agregar</button>
+                                              </div>
 
-     </form>
+                                                  <div class="card border-left-primary shadow overflow-auto border-light" >
+                                                 <div class="card-header bg-primary"><h1 class="h1 mb-0 text-gray-800 text-light">Seleccione la Ruta</h1></div>
+
+                                                <div id="mapid"  class="m-3 over-flow"  style="width: 50em; height: 40em;">
+
+                                                </div>
+
+
+                                            </div>
+                                          <button type="submit" class="btn btn-primary m-3" value="Submit">Agregar</button>
+                                    </form>
 
                                 </div>
 
