@@ -8,10 +8,166 @@ PotroTransporte
 
 <!--Inicio de CaruselAvisos -->
 
+ {%if user.is_authenticated%}
+
+<main class="container-fluid mb-3" role="main">
+
+
+
+    <div class="row">
+
+        <!--Inicio de Anuncio Tabla -->
+
+        <div class="col-12 col-md-3">
+
+            <div class="card ">
+                <div class="card-header bg-danger text-center">Anuncios</div>
+                <div class="card-body bg-dark">
+
+
+
+
+
+        <div class="list-group anyClass">
+
+          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">List group item heading</h5>
+              <small>3 days ago</small>
+            </div>
+            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            <small>Donec id elit non mi porta.</small>
+          </a>
+
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">List group item heading</h5>
+              <small>3 days ago</small>
+            </div>
+            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            <small>Donec id elit non mi porta.</small>
+          </a>
+
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">List group item heading</h5>
+              <small>3 days ago</small>
+            </div>
+            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            <small>Donec id elit non mi porta.</small>
+          </a>
+
+
+        </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <!--Fin de Anuncio Tabla -->
+
+
+        <!--Inicio de atajos de menu -->
+        <div class="col">
+
+            <div class="card bg-dark">
+                <div class="card-body">
+
+                    <!--Inicio de dialogos -->
+
+
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header text-center">Ruta</div>
+                                <div class="card-body">
+                                    <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                         <div class="col">
+                            <div class="card">
+                                <div class="card-header text-center">Ruta en Vivo</div>
+                                <div class="card-body">
+                                  <button type="submit" class="btn btn-primary btn-block">Ver</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mt-3">
+
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header text-center">Cobro</div>
+                                <div class="card-body">
+                                      <button type="submit" class="btn btn-primary btn-block">Generar Cobro</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                         <div class="col mt-3">
+                            <div class="card">
+                                <div class="card-header text-center">Crear Anuncio</div>
+                                <div class="card-body">
+
+                                    <form>
+
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Anuncio:</label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        </div>
+                                          <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+
+                                    </form>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!--Fin de dialogos -->
+
+
+                </div>
+            </div>
+        </div>
+
+        <!--Fin de atajos de menu -->
+
+
+
+        </div>
+
+
+
+</main>
+
+
+ {%else%}
 
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <!--Inicio de Indicadores -->
-        
+
         <!--Fin de Indicadores -->
 
         <!--Inicio de Imagenes -->
@@ -35,12 +191,14 @@ PotroTransporte
         </a>
 
         <!--Fin de COntroles de imagen -->
-        
+
 
     </div>
 
 <!--Fin de CaruselAvisos -->
 
+
+ {%endif%}
 
 
 
