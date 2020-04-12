@@ -216,6 +216,7 @@ class VistaAgregarRuta(LoginRequiredMixin,TemplateView):
             f.Horario=form.data['Horario']
             f.Latitud=form.data['Latitud']
             f.Longitud=form.data['Longitud']
+            f.TransporteFK = Transporte.objects.get(pk= form.data['Transporte'])
             f.save()
             return redirect('/')
         else:
