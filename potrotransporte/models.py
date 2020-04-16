@@ -45,48 +45,80 @@ class Ruta(models.Model):
         return self.NombreRuta
 
 
-class Reserva(models.Model):
+
+class RutaReserva(models.Model):
+    EstadoReserva = (
+        ('P', 'Reservado'),
+        ('C', 'Cancelado'),
+    )
+
+    turnoEscolar = (
+        ('M','Matutino'),
+        ('V','Vespertino'),
+    )
+
     UsuarioFK = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     RutaFk = models.ForeignKey(Ruta,on_delete=models.CASCADE,default="")
     fechaRegistro = models.DateField(_("Fecha"),default=datetime.date.today)
+    estadoReserva = models.CharField(max_length=1, choices=EstadoReserva, default='C')
+    turno = models.CharField(max_length=1,choices=turnoEscolar,default='M')
 
     def __str__(self):
         return str(self.UsuarioFK)
 
 
-
 class Asistencia(models.Model):
-    ReservaFK = models.ForeignKey(Reserva,on_delete=models.CASCADE,default="")
-    ida = models.BooleanField(default=True)
-    vuelta = models.BooleanField(default=True)
-    fechaDeReserva = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
+
+    ReservaFK = models.ForeignKey(RutaReserva,on_delete=models.CASCADE,default="")
+    ida = models.BooleanField(default=False)
+    vuelta = models.BooleanField(default=False)
+    fechaDeIda = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
+    fechaVuelta = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
 
     def __str__(self):
         return str(self.fechaDeReserva)
 
-class Pago(models.Model):
-    Estados = (
+
+
+class TipoMembresias(models.Model):
+    Duracion = (
+        ('S', 'Semanal'),
+        ('M', 'Mensual'),
+        ('C', 'Semestral'),
+    )
+    Nombre = models.CharField(max_length=40)
+    costo = models.IntegerField()
+    duracion = models.CharField(max_length=1, choices=Duracion, default='C')
+    costoPorDuracion = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.Nombre
+
+
+class Membresia(models.Model):
+    EstadoPago = (
         ('P', 'Pagado'),
         ('C', 'Cancelado'),
         ('E', 'Pendiente'),
-        ('N', 'Nuevo'),
+        ('T', 'Cancelado Tiempo')
     )
 
-    Membresias=(
-        ('s', 'Semestral'),
-        ('e', 'Semanal'),
-        ('m', 'Mensual'),
-    )
+    UsuarioFk = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+    MembresiaFk = models.ForeignKey(TipoMembresias, on_delete=models.CASCADE,default="")
+    FechaCreacion = models.DateField(_("Fecha"),default=datetime.date.today)
+    FechaTerminacion = models.DateField(_("Fecha"),default=datetime.date.today)
+    EstadoPago = models.CharField(max_length=1, choices=EstadoPago, default='E')
 
-    UsuarioFK = models.ForeignKey(User,on_delete=models.CASCADE,default="")
-    tipo = models.CharField(max_length=1,choices=Membresias,default='e')
+class DetallePagoMembresia(models.Model):
+
+    MembresiaFK = models.ForeignKey(Membresia,on_delete=models.CASCADE,blank=False)
+    Activo = models.BooleanField()
+    FechaAprobacion = models.DateField(_("Fecha"),default=datetime.date.today)
+    administrativoFK = models.ForeignKey(User,on_delete=models.CASCADE,default="")
+
+
+class Avisos(models.Model):
+    titulo = models.CharField(max_length=30,blank=False)
+    cuerpo = models.CharField(max_length=30,blank=False)
+    admin = models.ForeignKey(User,on_delete=models.CASCADE,blank=False)
     fechaCreacion = models.DateField(_("Fecha"),default=datetime.date.today)
-    monto = models.FloatField(default=500)
-    estatus = models.CharField(max_length=1,choices=Estados,default='N')
-
-
-class AprobacionPago(models.Model):
-    pagoFk = models.ForeignKey(Pago, on_delete=models.CASCADE, default="")
-    fechaAprobacion = models.DateField(_("Fecha"),default=datetime.date.today)
-    fechaExpiracion = models.DateField(_("Fecha"),default=datetime.datetime.today)
-    UserAdministrativo = models.ForeignKey(User,on_delete=models.CASCADE,default="")

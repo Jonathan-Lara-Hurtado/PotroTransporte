@@ -1,5 +1,6 @@
 {% extends "potrotransporte/tmpindex.html" %}
 {% load static %}
+{% load auth_extras%}
 {%block titulo%}
 PotroTransporte
 {%endblock%}
@@ -35,14 +36,6 @@ PotroTransporte
 
         <div class="list-group anyClass">
 
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small>3 days ago</small>
-            </div>
-            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <small>Donec id elit non mi porta.</small>
-          </a>
 
           <a href="#" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
@@ -52,14 +45,7 @@ PotroTransporte
     <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
     <small class="text-muted">Donec id elit non mi porta.</small>
   </a>
-            <a href="#" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-muted">3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
-  </a>
+
 
         </div>
 
@@ -71,6 +57,9 @@ PotroTransporte
             </div>
 
                 </div>
+
+                 {%if request.user|has_group:"Administrativos" %}
+
 
                 <div class="col ">
 
@@ -96,6 +85,9 @@ PotroTransporte
 
                 </div>
 
+                {%endif%}
+
+
             </div>
 
 
@@ -116,6 +108,52 @@ PotroTransporte
 
                     <div class="row">
 
+                          <div class="col-12 col-md-4 mb-3">
+                                                <div class="card">
+                                                <div class="card-header bg-warning text-center""> Membresia </div>
+                                                <div class="card-body">
+
+                                                    {%if membresia%}
+
+
+                                                    {%if membresia.get_EstadoPago_display == "Pendiente"%}
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                        <div class="list-group">
+                                                            <a class="list-group-item"><strong>Membresia:</strong> {{membresia.MembresiaFk.Nombre}}</a>
+                                                            <a class="list-group-item"><strong>Costo:</strong> {{membresia.MembresiaFk.costo}}</a>
+                                                            <a class="list-group-item"><strong>Fecha de creacion:</strong> {{membresia.FechaCreacion}}</a>
+                                                            <a class="list-group-item"><strong>Estado:</strong> {{membresia.get_EstadoPago_display}}</a>
+                                                        </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <a href="#" type="submit" class="btn btn-primary btn-block ">Cancelar</a>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                    {%else%}
+                                                    {{Pagado}}
+
+                                                    {%endif%}
+
+
+
+                                                    {%else%}
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block ">Activar</a>
+                                                        </div>
+                                                    </div>
+                                                    {%endif%}
+
+
+                                                </div>
+                                                </div>
+
+                                            </div>
+
                         <div class="col">
                             <div class="card ">
                                 <div class="card-header bg-warning text-center">Rutas</div>
@@ -123,6 +161,11 @@ PotroTransporte
 
 
                                     <div class="row">
+
+
+
+
+
                                     <div class="col-12">
                                         <!--ajustar mapa https://stackoverflow.com/questions/16885707/sizing-leaflet-map-inside-bootstrap-->
                                         <div class="container fill">
@@ -134,7 +177,14 @@ PotroTransporte
                                         </div>
 
                                         <div class="col-12">
-                                    <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Crear</a>
+
+                                            {%if request.user|has_group:"Administrativos"%}
+                                            <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Crear</a>
+                                            <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                            {%else%}
+                                                <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                            {%endif%}
+
 
                                         </div>
                                     </div>
@@ -146,6 +196,8 @@ PotroTransporte
 
 
                     <div class="row mt-3">
+
+
 
 
                          <div class="col">
@@ -171,6 +223,8 @@ PotroTransporte
                         </div>
 
 
+
+
                     </div>
 
 
@@ -182,6 +236,8 @@ PotroTransporte
         </div>
 
         <!--Fin de atajos de menu -->
+
+
 
 
 

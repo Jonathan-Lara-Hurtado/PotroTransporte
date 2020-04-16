@@ -20,13 +20,38 @@ from django.contrib.auth import login, authenticate,logout
 from django.shortcuts import redirect
 from .models import *
 from django.contrib.auth.models import Group,Permission
+from .templatetags.auth_extras import has_group
+
+class MembresiaHerramienta:
+    pass
 
 class VistaPrincipal(RedirectView):
 
     def get(self, request, *args, **kwargs):
         rutas = Ruta.objects.all()
-        return render(request, 'potrotransporte/index.html', {"gato":"gg",
+        self.cancelarPagosRetrasados(request.user)
+        membresia = self.MembresiaActivaoPendiente(request.user)
+        return render(request, 'potrotransporte/index.html', {"membresia":membresia,
                                                               "rutas":rutas})
+    def cancelarPagosRetrasados(self,r):
+        lista = Membresia.objects.filter(UsuarioFk=r.pk)
+        for i in lista:
+            if i.EstadoPago == 'E':
+                dia = self.dias_diferencia(i.FechaCreacion,datetime.date.today())
+                print("diassssss:"+str(dia))
+                if dia > 7:
+                    f = Membresia.objects.get(pk=i.pk)
+                    f.EstadoPago = 'T'
+                    f.save()
+
+    def MembresiaActivaoPendiente(self,r):
+        lista = Membresia.objects.filter(UsuarioFk=r.pk)
+        for i in lista:
+            if i.EstadoPago == 'E' or i.EstadoPago == 'P':
+                return i
+
+    def dias_diferencia(self,dv,dn):
+        return abs(dn-dv).days
 
 
 class VistaRegistroAdmin(RedirectView):
@@ -199,25 +224,43 @@ class VistaAgregarRuta(LoginRequiredMixin,TemplateView):
         operador = Operador.objects.all()
         transporte = Transporte.objects.all()
 
-        return self.render_to_response({'form': self.form,
-                                        'rutas':rutas,
-                                        'form2':self.form2,
-                                        'form3':self.form3,
-                                        'ListaOperador':operador,
-                                        'ListaTransporte':transporte
+        if has_group(user=request.user,group_name="Administrativos"):
+            return self.render_to_response({'form': self.form,
+                                            'rutas': rutas,
+                                            'form2': self.form2,
+                                            'form3': self.form3,
+                                            'ListaOperador': operador,
+                                            'ListaTransporte': transporte
+                                            })
+        else:
+            return redirect('/')
+
+
+
+    def post(self, resquest):
+        if has_group(user=resquest.user, group_name="Administrativos"):
+            form = FormularioCrearRuta(resquest.POST)
+            if form.is_valid():
+                f = Ruta()
+                f.NombreRuta = form.data['NombreRuta']
+                f.Horario=form.data['Horario']
+                f.Latitud=form.data['Latitud']
+                f.Longitud=form.data['Longitud']
+                f.TransporteFK = Transporte.objects.get(pk= form.data['Transporte'])
+                f.save()
+                return redirect('/')
+            else:
+                return HttpResponse("error al agregar ruta")
+        else:
+            return redirect('/')
+
+class VistaCobro(LoginRequiredMixin,TemplateView):
+
+    template_name = "potrotransporte/cobrotransporte.html"
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response({'form': 'gato',
                                         })
 
     def post(self, resquest):
-        print(resquest.POST)
-        form = FormularioCrearRuta(resquest.POST)
-        if form.is_valid():
-            f = Ruta()
-            f.NombreRuta = form.data['NombreRuta']
-            f.Horario=form.data['Horario']
-            f.Latitud=form.data['Latitud']
-            f.Longitud=form.data['Longitud']
-            f.TransporteFK = Transporte.objects.get(pk= form.data['Transporte'])
-            f.save()
-            return redirect('/')
-        else:
-            return HttpResponse("error al agregar ruta")
+        pass

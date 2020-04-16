@@ -51,7 +51,7 @@ class Acceso(forms.Form):
             if not check_password(passwordform,cifrado):
                 self.intentos +=1
                 print(self.intentos)
-                raise forms.ValidationError(u'La contraseña no son iguales')
+                raise forms.ValidationError(u'Contraseña Incorrecta')
         else:
             raise forms.ValidationError(u'El Usuario no esta registrado')
 

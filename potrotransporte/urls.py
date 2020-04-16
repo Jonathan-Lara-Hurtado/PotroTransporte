@@ -16,7 +16,8 @@ path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_n
 path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 path('datos/', views.VistaDatos.as_view(), name='datos'),
-path('crear_ruta/',views.VistaAgregarRuta.as_view(),name='crear_ruta'),
+path('crear_ruta/', views.VistaAgregarRuta.as_view(), name='crear_ruta'),
+path('cobro_transporte/', views.VistaCobro.as_view(), name='cobro_transporte'),
 ]
 
 
