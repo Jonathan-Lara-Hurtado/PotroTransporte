@@ -7,6 +7,24 @@ from .models import Transporte,Operador,TipoMembresias
 class FormularioMembresia(forms.Form):
     membresia = forms.ModelChoiceField(queryset=TipoMembresias.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
 
+class FormularioTiposCobro(forms.Form):
+
+    Duracion = (
+        ('S', 'Semanal'),
+        ('M', 'Mensual'),
+        ('C', 'Semestral'),
+    )
+    Nombre = forms.CharField(label="Nombre:",help_text="Nombre relacionado con la duracion de la membresia")
+    costo = forms.IntegerField(label="Costo del pasaje",widget=forms.NumberInput(attrs={'class':"form-control",
+                                                                                        'id':"costo",
+                                                                                        'onchange':"calcularCosto()"}))
+    duracion = forms.ChoiceField(choices=Duracion,widget=forms.Select(attrs={'class':'form-control',
+                                                                             'id':'duracionSelect',
+                                                                             'onchange':"calcularCosto()"}))
+    costoPorDuracion = forms.IntegerField(label="Costo de la membresia",widget=forms.NumberInput(attrs={'class':"form-control",
+                                                                                                        'id':'precioFinal'}))
+
+    Nombre.widget = forms.TextInput(attrs={'class': "form-control"})
 
 
 class Registro(forms.Form):

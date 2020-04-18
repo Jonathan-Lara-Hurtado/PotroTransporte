@@ -263,7 +263,8 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
     template_name = "potrotransporte/cobrotransporte.html"
 
     def get(self, request, *args, **kwargs):
-        return self.render_to_response({'form': 'gato',
+        formularioTiposCobro = FormularioTiposCobro()
+        return self.render_to_response({'formularioTiposCobro': formularioTiposCobro,
                                         })
 
     def post(self, resquest):
