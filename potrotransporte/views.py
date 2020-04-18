@@ -29,10 +29,14 @@ class VistaPrincipal(RedirectView):
 
     def get(self, request, *args, **kwargs):
         rutas = Ruta.objects.all()
+        formMembresia = FormularioMembresia()
+        listaMembresia= TipoMembresias.objects.all()
         self.cancelarPagosRetrasados(request.user)
         membresia = self.MembresiaActivaoPendiente(request.user)
         return render(request, 'potrotransporte/index.html', {"membresia":membresia,
-                                                              "rutas":rutas})
+                                                              "rutas":rutas,
+                                                              "FormMembresia":formMembresia,
+                                                              "listaMembresia":listaMembresia,})
     def cancelarPagosRetrasados(self,r):
         lista = Membresia.objects.filter(UsuarioFk=r.pk)
         for i in lista:

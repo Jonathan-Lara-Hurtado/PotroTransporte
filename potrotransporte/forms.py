@@ -2,7 +2,12 @@ from django import forms
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import PBKDF2SHA1PasswordHasher, SHA1PasswordHasher,check_password
-from .models import Transporte,Operador
+from .models import Transporte,Operador,TipoMembresias
+
+class FormularioMembresia(forms.Form):
+    membresia = forms.ModelChoiceField(queryset=TipoMembresias.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+
+
 
 class Registro(forms.Form):
 
