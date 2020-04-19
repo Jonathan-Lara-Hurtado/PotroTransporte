@@ -258,13 +258,18 @@ class VistaAgregarRuta(LoginRequiredMixin,TemplateView):
         else:
             return redirect('/')
 
+
+
+
 class VistaCobro(LoginRequiredMixin,TemplateView):
 
     template_name = "potrotransporte/cobrotransporte.html"
 
     def get(self, request, *args, **kwargs):
         formularioTiposCobro = FormularioTiposCobro()
+        listaCobros = self.listaApagar()
         return self.render_to_response({'formularioTiposCobro': formularioTiposCobro,
+                                        'listaCobros':listaCobros,
                                         })
 
     def post(self, resquest):
@@ -291,3 +296,8 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
         m = Membresia.objects.get(pk=r.POST['idMembresia'])
         m.EstadoPago = 'C'
         m.save()
+
+    def listaApagar(self):
+        l = Membresia.objects.filter(EstadoPago='E')
+
+        return l

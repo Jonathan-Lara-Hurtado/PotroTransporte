@@ -40,28 +40,25 @@ Cobro
 
                   <thead class="thead-dark">
             <tr>
-                <th>Nombre</th>
-                <th>Licencia</th>
-                <th>telefono</th>
-                <th>Dirrecion</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th>Correo</th>
+                <th>Membresia</th>
+                 <th>Pagar</th>
+                 <th>Accion</th>
             </tr>
         </thead>
 
 
-             {%if ListaOperador%}
+             {%if listaCobros%}
 
 
-             {%for d in ListaOperador %}
+             {%for d in listaCobros %}
                <tr>
-               <td>{{d}}</td>
-               <td>{{d.Licencia}}</td>
-               <td>{{d.telefono}}</td>
-               <td>{{d.Dirrecion}}</td>
-               <td><button type="button" class="btn btn-primary">Editar</button></td>
-               <td><button type="button" class="btn btn-primary">Eliminar</button></td>
-
+                   <td>{{d.UsuarioFk.email}}</td>
+                   <td>{{d.MembresiaFk}}</td>
+                   <td>$ {{d.MembresiaFk.costoPorDuracion}} MXN</td>
+               <td>
+                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="{{d.pk}},{{d.UsuarioFk.email}}">Pagar</button>
+               </td>
                </tr>
 
              {%endfor%}
@@ -89,6 +86,44 @@ Cobro
 
 
 </div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Pagar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <form>
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="recipient-name">
+          </div>
+
+          <div class="form-group">
+
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 <script>
 
@@ -122,6 +157,25 @@ switch(String(e)) {
 
 
 }
+
+
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var recipient = button.data('whatever'); // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this);
+  //modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient);
+
+    var arreglo = recipient.split(',');
+
+  for (var i=0; i < arreglo.length; i++) {
+      console.debug(arreglo[i]);
+   }
+
+
+});
 
 </script>
 
