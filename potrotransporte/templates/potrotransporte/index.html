@@ -121,16 +121,18 @@ PotroTransporte
                                                         <div class="col-12">
                                                         <div class="list-group">
                                                             <a class="list-group-item"><strong>Membresia:</strong> {{membresia.MembresiaFk.Nombre}}</a>
-                                                            <a class="list-group-item"><strong>Costo:</strong> {{membresia.MembresiaFk.costo}}</a>
+                                                            <a class="list-group-item"><strong>Costo al Alumno:</strong>$ {{membresia.MembresiaFk.costo}} MXN</a>
+                                                           <a class="list-group-item"><strong>Costo total Membresia:</strong>$ {{membresia.MembresiaFk.costoPorDuracion}} MXN</a>
                                                             <a class="list-group-item"><strong>Fecha de creacion:</strong> {{membresia.FechaCreacion}}</a>
                                                             <a class="list-group-item"><strong>Estado:</strong> {{membresia.get_EstadoPago_display}}</a>
                                                         </div>
                                                         </div>
                                                         <div class="col-12">
-                                                            <a href="#" type="submit" class="btn btn-primary btn-block ">Cancelar</a>
 
-                                                                                
+                                                            <a href="#" type="submit" class="btn btn-primary btn-block " data-toggle="modal" data-target="#ModalCancelar">Cancelar</a>
 
+                                                            <!--seccion cancelarMembresia-->
+                                                            
                                                         </div>
                                                     </div>
                                                     {%else%}
@@ -266,8 +268,7 @@ PotroTransporte
       <div class="modal-body">
         <!--Inicio de FormularioMembresia -->
 
-          <form>
-
+                {% csrf_token %}
               <div class="form-group">
                   <label for="list1" class="col-sm-2 col-form-label">Membresia:</label>
               <select class="form-control" id="list1" onchange="precio()">
@@ -277,11 +278,12 @@ PotroTransporte
                 <div class="form-group row">
                     <label for="staticPrecio" class="col-sm-2 col-form-label">Costo: </label>
                     <div class="col-sm-10">
-                      <input type="text" readonly class="form-control-plaintext" id="staticPrecio" value="$.MXN">
+                      <input type="submit" name="ActivarMembresia" class="form-control-plaintext" id="staticPrecio"  value="$.MXN">
+                    <div class="alert alert-light" id="server-results" role="alert">
                     </div>
+                    <input type="hidden" name="respuesta" id="respuesta" value="Activacion">
                   </div>
 
-              </form>
 
 
         <!--Fin de FormularioMembresia -->
@@ -290,12 +292,46 @@ PotroTransporte
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Activar</button>
+        <button type="button" class="btn btn-primary submitBtn" onclick="enviarPeticionMembresia()">Activar</button>
       </div>
     </div>
   </div>
 </div>
+</div>
 
+
+
+<!-- Modal Cancelar -->
+<div class="modal fade" id="ModalCancelar" tabindex="-1" role="dialog" aria-labelledby="ModalCancelarTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title w-100 text-center text-light" id="ModalCancelarLongTitle">Cancelar Membresia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <!--Inicio de FormularioMembresia -->
+                {% csrf_token %}
+          <h4><strong>¿Esta usted seguro de cancelar esta membresia?</strong></h4>
+          <small class="form-text text-muted">Nota:si cancela podra apartar otra membresia esta se agregara a su historial</small>
+          <input type="hidden" name="respuesta" id="valorMembresia" value="{{membresia.pk}}">
+          <input type="hidden" name="respuestaCancelar" id="respuestaCancelar" value="Cancelacion">
+          <div class="alert alert-light" id="server-results1" role="alert">
+                    </div>
+
+
+          <!--Fin de FormularioMembresia -->
+      </div>
+      <div class="modal-footer">
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary submitBtn submitBtn" onclick="cancelarPeticion()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -406,8 +442,30 @@ function precio(){
  }
 
 }
+configurarCSRF();
+
+
+function enviarPeticionMembresia(){
+     $('.submitBtn').attr("disabled","disabled");
+     var x = document.getElementById("list1").value;
+     var respuesta = $('#respuesta').val();
+     var data = {'Respuesta':respuesta,'ValSelect':x};
+     var metodo = 'POST';
+     var all = new Peticiones("{%url 'cobro_transporte'%}",metodo,data,"#server-results");
+}
+
+function cancelarPeticion(){
+$('.submitBtn').attr("disabled","disabled");
+var idMembresia = $('#valorMembresia').val()
+var respuesta = $('#respuestaCancelar').val();
+var data = {'Respuesta':respuesta,'idMembresia':idMembresia};
+var metodo='POST';
+var all = new Peticiones("{%url 'cobro_transporte'%}",metodo,data,"#server-results1");
+
+}
 
 </script>
+
 
 
  {%else%}

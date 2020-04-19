@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.http import JsonResponse
 
 #librerias de autentificacion
 from django.contrib.sites.shortcuts import get_current_site
@@ -268,4 +268,26 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
                                         })
 
     def post(self, resquest):
-        pass
+        print(resquest.POST['Respuesta'])
+        if resquest.POST['Respuesta'] == "Activacion":
+            self.activacion(resquest)
+            return JsonResponse({"message": "Cambio realizado con exitoso"}, status=201)
+        elif resquest.POST['Respuesta'] == "Cancelacion":
+            self.cancelacion(resquest)
+            return JsonResponse({"message": "Cambio realizado con exitoso"}, status=201)
+        else:
+            return JsonResponse({"message": "error"}, status=201)
+
+    def activacion(self,r):
+        usuario = User.objects.get(pk=r.user.pk)
+        mebresia = TipoMembresias.objects.get(duracion=r.POST['ValSelect'])
+        f = Membresia()
+        f.UsuarioFk = usuario
+        f.MembresiaFk = mebresia
+        f.EstadoPago = 'E'
+        f.save()
+
+    def cancelacion(self,r):
+        m = Membresia.objects.get(pk=r.POST['idMembresia'])
+        m.EstadoPago = 'C'
+        m.save()
