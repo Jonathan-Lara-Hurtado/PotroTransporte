@@ -143,7 +143,7 @@ PotroTransporte
                                                         <div class="col-12">
                                                         <div class="list-group">
                                                             <a class="list-group-item"><strong>Membresia:</strong> {{membresia.MembresiaFk.Nombre}}</a>
-                                                           <a class="list-group-item"><strong>Costo total Membresia:</strong>$ {{membresia.MembresiaFk.costoPorDuracion}} MXN</a>
+                                                           <a class="list-group-item"><strong>Costo Pagado:</strong>$ {{membresia.MembresiaFk.costoPorDuracion}} MXN</a>
                                                             <a class="list-group-item"><strong>Fecha de creacion:</strong> {{membresia.FechaCreacion}}</a>
                                                                             {%for d in membresia.detallepagomembresia_set.all %}
                                                                             <a class="list-group-item"><strong>Fecha Aprobacion:</strong>{{d.FechaAprobacion}} MXN</a>
@@ -207,9 +207,17 @@ PotroTransporte
 
                                             {%if request.user|has_group:"Administrativos"%}
                                             <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Crear</a>
-                                            <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                {%if membresia %}
+                                                    {%if membresia.get_EstadoPago_display == "Pagado"%}
+                                                    <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                    {%endif%}
+                                                {%endif%}
                                             {%else%}
-                                                <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                {%if membresia %}
+                                                    {%if membresia.get_EstadoPago_display == "Pagado"%}
+                                                    <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                    {%endif%}
+                                                {%endif%}
                                             {%endif%}
 
 
@@ -231,13 +239,14 @@ PotroTransporte
                             <div class="card">
                                 <div class="card-header bg-warning text-center">Ruta en Vivo</div>
                                 <div class="card-body">
-                                  <button type="submit" class="btn btn-primary btn-block">Ver</button>
+                                  <button type="submit" class="btn btn-primary btn-block">Proximamente</button>
                                 </div>
                             </div>
 
 
                         </div>
 
+                        {%if request.user|has_group:"Administrativos"%}
                         <div class="col">
                             <div class="card">
                                 <div class="card-header bg-warning text-center">Cobro</div>
@@ -245,9 +254,10 @@ PotroTransporte
                                       <a href="{%url 'cobro_transporte'%}" type="submit" class="btn btn-primary btn-block">Generar Cobro</a>
                                 </div>
                             </div>
-
-
                         </div>
+                        {%endif%}
+
+
 
 
 

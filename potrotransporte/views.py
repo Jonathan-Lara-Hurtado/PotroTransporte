@@ -334,11 +334,11 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
         m = Membresia.objects.get(pk=r.POST['idMembresia'])
         print(m.MembresiaFk.duracion)
         if m.MembresiaFk.duracion == 'C':
-            pass
+            self.generarDetallesMembresia(r, m , 30*3)
         elif m.MembresiaFk.duracion == 'M':
-            self.generarDetallesMembresia(r,m,30)
+            self.generarDetallesMembresia(r, m, 30)
         else:
-            pass
+            self.generarDetallesMembresia(r, m, 5)
 
     def generarDetallesMembresia(self, r, m,cDia):
         MHObj = MembresiaHerramienta()
