@@ -101,6 +101,7 @@ Cobro
       </div>
       <div class="modal-body ">
         <form>
+            {% csrf_token %}
           <div class="form-group">
             <input type="hidden" class="form-control" id="recipient-name">
           </div>
@@ -108,14 +109,17 @@ Cobro
           <div class="form-group">
              <label for="idcuenta">Cuenta a Cobrar:</label>
              <input type="text" id="CuentaUsuario" name="idcuenta" class="form-control" value="" readonly><br><br>
+               <input type="hidden" class="form-control" id="idMembresia">
 
           </div>
+            <div class="alert alert-light" id="server-results" role="alert">
+                    </div>
 
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="pagoMembresia()">Aceptar</button>
+        <button type="button" class="btn btn-primary submitBtn" onclick="pagoMembresia()">Aceptar</button>
       </div>
     </div>
   </div>
@@ -161,6 +165,7 @@ switch(String(e)) {
 }
 
 
+
 $('#exampleModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget); // Button that triggered the modal
   var recipient = button.data('whatever'); // Extract info from data-* attributes
@@ -171,17 +176,22 @@ $('#exampleModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body input').val(recipient);
 
     var arreglo = recipient.split(',');
-
+/*
   for (var i=0; i < arreglo.length; i++) {
       console.debug(arreglo[i]);
-   }
-  document.getElementById("CuentaUsuario").value =arreglo[1]
-
+   }*/
+  document.getElementById("CuentaUsuario").value =arreglo[1];
+   document.getElementById("idMembresia").value = arreglo[0];
 });
 
-
+configurarCSRF();
 
 function pagoMembresia(){
+//$('.submitBtn').attr("disabled","disabled");
+var id = document.getElementById("idMembresia").value;
+var data ={'Respuesta':'Pago','idMembresia':id};
+var all = new Peticiones("{%url 'cobro_transporte'%}",'POST',data,"#server-results");
+
 
 
 }

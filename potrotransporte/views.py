@@ -280,6 +280,9 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
         elif resquest.POST['Respuesta'] == "Cancelacion":
             self.cancelacion(resquest)
             return JsonResponse({"message": "Cambio realizado con exitoso"}, status=201)
+        elif resquest.POST['Respuesta'] == "Pago":
+            self.pago(resquest)
+            return JsonResponse({"message": "Cambio realizado con exitoso"}, status=201)
         else:
             return JsonResponse({"message": "error"}, status=201)
 
@@ -299,5 +302,10 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
 
     def listaApagar(self):
         l = Membresia.objects.filter(EstadoPago='E')
-
         return l
+
+    def pago(self,r):
+        print(r.POST)
+        m = Membresia.objects.get(pk=r.POST['idMembresia'])
+        m.EstadoPago = 'P'
+        m.save()
