@@ -136,7 +136,29 @@ PotroTransporte
                                                         </div>
                                                     </div>
                                                     {%else%}
-                                                    {{Pagado}}
+
+                                                    <!--Inicio de Pagado -->
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                        <div class="list-group">
+                                                            <a class="list-group-item"><strong>Membresia:</strong> {{membresia.MembresiaFk.Nombre}}</a>
+                                                           <a class="list-group-item"><strong>Costo total Membresia:</strong>$ {{membresia.MembresiaFk.costoPorDuracion}} MXN</a>
+                                                            <a class="list-group-item"><strong>Fecha de creacion:</strong> {{membresia.FechaCreacion}}</a>
+                                                                            {%for d in membresia.detallepagomembresia_set.all %}
+                                                                            <a class="list-group-item"><strong>Fecha Aprobacion:</strong>{{d.FechaAprobacion}} MXN</a>
+                                                                      <a class="list-group-item"><strong>Vigencia:</strong> Del {{d.FechaInicio}} al {{d.FechaTerminacion}} MXN</a>
+
+                                                            {%endfor%}
+                                                            <a class="list-group-item"><strong>Estado:</strong> {{membresia.get_EstadoPago_display}}</a>
+                                                        </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!--Fin de Pagado -->
+
 
                                                     {%endif%}
 
