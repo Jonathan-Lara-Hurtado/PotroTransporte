@@ -100,20 +100,22 @@ class Membresia(models.Model):
         ('P', 'Pagado'),
         ('C', 'Cancelado'),
         ('E', 'Pendiente'),
-        ('T', 'Cancelado Tiempo')
+        ('T', 'Cancelado Tiempo'),
+        ('W', 'Expiro Membresia')
     )
 
     UsuarioFk = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     MembresiaFk = models.ForeignKey(TipoMembresias, on_delete=models.CASCADE,default="")
-    FechaCreacion = models.DateField(_("Fecha"),default=datetime.date.today)
-    FechaTerminacion = models.DateField(_("Fecha"),default=datetime.date.today)
+    FechaCreacion = models.DateField(_("Fecha creacion"),default=datetime.date.today)
+    FechaInicio = models.DateField(_("Fecha Inicio"),default=datetime.date.today)
+    FechaTerminacion = models.DateField(_("Fecha Terminacion"),default=datetime.date.today)
     EstadoPago = models.CharField(max_length=1, choices=EstadoPago, default='E')
 
 class DetallePagoMembresia(models.Model):
 
     MembresiaFK = models.ForeignKey(Membresia,on_delete=models.CASCADE,blank=False)
     Activo = models.BooleanField()
-    FechaAprobacion = models.DateField(_("Fecha"),default=datetime.date.today)
+    FechaAprobacion = models.DateField(_("Fecha Aprobacion"),default=datetime.date.today)
     administrativoFK = models.ForeignKey(User,on_delete=models.CASCADE,default="")
 
 

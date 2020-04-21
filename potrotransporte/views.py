@@ -23,7 +23,32 @@ from django.contrib.auth.models import Group,Permission
 from .templatetags.auth_extras import has_group
 
 class MembresiaHerramienta:
-    pass
+
+    def fechaHoy(self):
+        return datetime.date.today()
+
+    def aumentarDias(fecha, d):
+        return fecha + datetime.timedelta(days=d)
+
+    def dias(date, d):
+        fecha = aumentarDias(date, 1)
+        a = 1
+        fechaInicial = date
+        while a <= d:
+            if fecha.strftime("%A") == "Saturday":
+                fecha = aumentarDias(fecha, 2)
+            elif fecha.strftime("%A") == "Sunday":
+                fecha = aumentarDias(fecha, 1)
+            else:
+                if a < 2:
+                    fechaInicial = fecha
+                    a = a + 1
+                else:
+                    fecha = aumentarDias(fecha, 1)
+                    a = a + 1
+
+        return [fechaInicial, fecha]
+
 
 class VistaPrincipal(RedirectView):
 
@@ -307,5 +332,7 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
     def pago(self,r):
         print(r.POST)
         m = Membresia.objects.get(pk=r.POST['idMembresia'])
-        m.EstadoPago = 'P'
-        m.save()
+        print(m.MembresiaFk.duracion)
+#        m.EstadoPago = 'P'
+#        m.FechaInicio =
+#        m.save()
