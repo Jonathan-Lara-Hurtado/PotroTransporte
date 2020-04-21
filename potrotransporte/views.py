@@ -27,24 +27,24 @@ class MembresiaHerramienta:
     def fechaHoy(self):
         return datetime.date.today()
 
-    def aumentarDias(fecha, d):
+    def aumentarDias(self, fecha, d):
         return fecha + datetime.timedelta(days=d)
 
-    def dias(date, d):
-        fecha = aumentarDias(date, 1)
+    def dias(self, date, d):
+        fecha = self.aumentarDias(date, 1)
         a = 1
         fechaInicial = date
         while a <= d:
             if fecha.strftime("%A") == "Saturday":
-                fecha = aumentarDias(fecha, 2)
+                fecha = self.aumentarDias(fecha, 2)
             elif fecha.strftime("%A") == "Sunday":
-                fecha = aumentarDias(fecha, 1)
+                fecha = self.aumentarDias(fecha, 1)
             else:
                 if a < 2:
                     fechaInicial = fecha
                     a = a + 1
                 else:
-                    fecha = aumentarDias(fecha, 1)
+                    fecha = self.aumentarDias(fecha, 1)
                     a = a + 1
 
         return [fechaInicial, fecha]
@@ -333,6 +333,26 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
         print(r.POST)
         m = Membresia.objects.get(pk=r.POST['idMembresia'])
         print(m.MembresiaFk.duracion)
-#        m.EstadoPago = 'P'
-#        m.FechaInicio =
-#        m.save()
+        if m.MembresiaFk.duracion == 'C':
+            pass
+        elif m.MembresiaFk.duracion == 'M':
+            self.generarDetallesMembresia(r,m,30)
+        else:
+            pass
+
+    def generarDetallesMembresia(self, r, m,cDia):
+        MHObj = MembresiaHerramienta()
+        fecha = MHObj.dias(MHObj.fechaHoy(), cDia)
+        m.EstadoPago = 'P'
+        userAdmin = User.objects.get(pk=r.user.pk)
+        detallesMembresia = DetallePagoMembresia()
+        detallesMembresia.MembresiaFK = m
+        detallesMembresia.administrativoFK = userAdmin
+        detallesMembresia.FechaInicio = fecha[0]
+        detallesMembresia.FechaTerminacion =fecha[1]
+        detallesMembresia.FechaAprobacion = MHObj.fechaHoy()
+        detallesMembresia.save()
+        m.save()
+
+
+
