@@ -6,7 +6,8 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 #librerias de autentificacion
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -21,6 +22,7 @@ from django.shortcuts import redirect
 from .models import *
 from django.contrib.auth.models import Group,Permission
 from .templatetags.auth_extras import has_group
+from django.core import serializers
 
 class MembresiaHerramienta:
 
@@ -284,7 +286,30 @@ class VistaAgregarRuta(LoginRequiredMixin,TemplateView):
             return redirect('/')
 
 
+class VistaHistorialCobro(LoginRequiredMixin,TemplateView):
 
+    template_name = "potrotransporte/historialmembresias.html"
+
+    def get(self, request, *args, **kwargs):
+        usuario= User.objects.get(pk=request.user.pk)
+        Historial = Membresia.objects.filter(UsuarioFk=usuario)
+        return self.render_to_response({'Historial':Historial})
+
+class LazyEncoder(DjangoJSONEncoder):
+    def default(self, o):
+        if isinstance(o, DetallePagoMembresia):
+            return str(o)
+        return super().default(o)
+
+class VistaHistorialData(LoginRequiredMixin,TemplateView):
+
+    def get(self,request):
+        usuario= User.objects.get(pk=request.user.pk)
+        Historial = Membresia.objects.filter(UsuarioFk=usuario)
+        post_list = serializers.serialize('json',Historial,cls=LazyEncoder)
+        print(post_list)
+        d = json.loads(post_list)
+        return JsonResponse(d, safe=False)
 
 class VistaCobro(LoginRequiredMixin,TemplateView):
 

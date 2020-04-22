@@ -1,6 +1,5 @@
 function informacionTablas(nombre){
    $(nombre).DataTable(
-
    {
         "language": {
          "decimal":        "",

@@ -1,0 +1,110 @@
+{% extends "potrotransporte/tmpindex.html" %}
+{%block titulo%}
+Historial
+{%endblock%}
+
+
+{%block cuerpo %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-dark text-center"><h1 class="h1 mb-0 text-gray-800 text-light">Historial</h1></div>
+                <div class="card-body">
+                    {%if Historial%}
+
+                    <style>
+                        #toolbar {
+                          margin: 0;
+                        }
+                        </style>
+
+                        <div id="toolbar" class="select">
+                          <select class="form-control">
+                            <option value="">Exportacion Basico</option>
+                            <option value="all">Exportar Todo</option>
+                            <option value="selected">Exportar seleccion</option>
+                          </select>
+                        </div>
+
+
+                    <table id="table"
+                           data-search="true"
+                           data-show-export="true"
+                           data-pagination="true"
+                           data-click-to-select="true"
+                            data-show-columns="true"
+                           data-show-toggle="true"
+                           data-toolbar="#toolbar"
+                    >
+
+                    </table>
+
+
+                    {%else%}
+                    <h1>Usteded no a contratado membresia</h1>
+                    {%endif%}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+var data = [
+{%for d in Historial %}
+
+{
+ pk:'{{d.pk}}',
+ membresia:'{{d.MembresiaFk.Nombre}}',
+ costo:'{{d.MembresiaFk.costoPorDuracion}}',
+ estado:'{{d.get_EstadoPago_display}}',
+ fechaCre:'{{d.FechaCreacion}}'
+},
+ {%endfor%}
+]
+
+var $table = $('#table');
+
+
+$(function() {
+$('#toolbar').find('select').change(function () {
+$table.bootstrapTable('destroy');
+$table.bootstrapTable({
+data:data,
+exportDataType: $(this).val(),
+exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+columns: [
+{
+            field: 'state',
+            checkbox: true,
+            visible: $(this).val() === 'selected'
+          },{
+            field: 'pk',
+            title: 'pk'
+          },{
+          field: 'membresia',
+            title: 'Membresia'
+          },{
+          field: 'estado',
+            title: 'Estado'
+          }
+
+]
+});
+}).trigger('change');
+});
+
+
+
+
+</script>
+
+{%endblock%}
+
+{%block pie %}
+{%endblock%}
