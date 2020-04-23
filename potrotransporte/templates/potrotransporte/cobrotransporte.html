@@ -17,6 +17,8 @@ Cobro
                 <div class="card">
                     <div class="card-header bg-dark text-center"><h1 class="h1 mb-0 text-gray-800 text-light">Tipos de cobros</h1></div>
                     <div class="card-body">
+                        <div class="row">
+                         <div class="col-12 mb-3">
                         <div class="form">
                         {%for d in formularioTiposCobro %}
                         {{d.label}}
@@ -24,6 +26,14 @@ Cobro
                         {%endfor%}
 
                         </div>
+                         </div>
+                         <div class="col-12">
+                        <a type="button"class="btn btn-primary text-light">Aceptar</a>
+
+                         </div>
+
+                        </div>
+
 
                     </div>
                 </div>
@@ -129,12 +139,15 @@ Cobro
 
 
 
-
 <script>
+
 
    $(document).ready(function() {
         informacionTablas('#tablaCobrar');
     });
+
+
+
 
 
 

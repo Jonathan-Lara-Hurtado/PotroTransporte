@@ -26,6 +26,7 @@ class FormularioTiposCobro(forms.Form):
 
     Nombre.widget = forms.TextInput(attrs={'class': "form-control"})
 
+    costoPorDuracion.widget.attrs['readonly'] = True
 
 class Registro(forms.Form):
 
