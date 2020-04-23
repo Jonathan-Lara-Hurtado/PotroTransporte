@@ -8,11 +8,10 @@ class FormularioMembresia(forms.Form):
     membresia = forms.ModelChoiceField(queryset=TipoMembresias.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
 
 class FormularioTiposCobro(forms.Form):
-
     Duracion = (
         ('S', 'Semanal'),
         ('M', 'Mensual'),
-        ('C', 'Semestral'),
+        ('C', 'Trimestral'),
     )
     Nombre = forms.CharField(label="Nombre:",help_text="Nombre relacionado con la duracion de la membresia")
     costo = forms.IntegerField(label="Costo del pasaje",widget=forms.NumberInput(attrs={'class':"form-control",

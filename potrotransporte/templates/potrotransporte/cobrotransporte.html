@@ -28,8 +28,9 @@ Cobro
                         </div>
                          </div>
                          <div class="col-12">
-                        <a type="button"class="btn btn-primary text-light">Aceptar</a>
-
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCrearMembresia">
+                        Crear
+                        </button>
                          </div>
 
                         </div>
@@ -137,6 +138,32 @@ Cobro
 
 
 
+<!-- Modal -->
+<div class="modal fade" id="modalCrearMembresia" tabindex="-1" role="dialog" aria-labelledby="modalCrearMembresiaCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title " id="modalCrearMembresiaLongTitle">Agregar Membresia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h2>¿Esta usted seguro de agregar esta membresia?</h2>
+           <div class="alert alert-light" id="server-results2" role="alert">
+                    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary " onclick="addMembresia()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 
 <script>
@@ -168,7 +195,7 @@ switch(String(e)) {
     document.getElementById("precioFinal").value = String( (x * 5)*4)
     break;
   case "C":
-    document.getElementById("precioFinal").value = String( ((x * 5)*4)*5)
+    document.getElementById("precioFinal").value = String( ((x * 5)*4)*3)
     break;
 }
 
@@ -205,6 +232,21 @@ var all = new Peticiones("{%url 'cobro_transporte'%}",'POST',data,"#server-resul
 
 }
 
+function addMembresia(){
+var nombre=document.getElementById("id_Nombre").value;
+var CostodelPasaje=document.getElementById("costo").value;
+var Duracion=document.getElementById("duracionSelect").value;
+var CostoMembresia=document.getElementById("precioFinal").value;
+
+var data = {'Respuesta':'addMembresia',
+            'nombre':nombre,
+            'CostodelPasaje':CostodelPasaje,
+            'Duracion':Duracion,
+            'CostoMembresia':CostoMembresia};
+console.debug(data);
+var all = new Peticiones("{%url 'cobro_transporte'%}",'POST',data,"#server-results2");
+
+}
 
 </script>
 

@@ -333,6 +333,9 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
         elif resquest.POST['Respuesta'] == "Pago":
             self.pago(resquest)
             return JsonResponse({"message": "Cambio realizado con exitoso"}, status=201)
+        elif resquest.POST['Respuesta']:
+            self.agregarMembresia(resquest)
+            return JsonResponse({"message": "Cambio realizado con exitoso"}, status=201)
         else:
             return JsonResponse({"message": "error"}, status=201)
 
@@ -380,4 +383,10 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
         m.save()
 
 
-
+    def agregarMembresia(self,r):
+        m = TipoMembresias()
+        m.Nombre = r.POST['nombre']
+        m.costo =r.POST['CostodelPasaje']
+        m.duracion = r.POST['Duracion']
+        m.costoPorDuracion = r.POST['CostoMembresia']
+        m.save()
