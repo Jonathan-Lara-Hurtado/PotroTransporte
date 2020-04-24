@@ -60,10 +60,27 @@ class VistaPrincipal(RedirectView):
         listaMembresia= TipoMembresias.objects.all()
         self.cancelarPagosRetrasados(request.user)
         membresia = self.MembresiaActivaoPendiente(request.user)
+        listaAvisos = self.listasAvisos()
         return render(request, 'potrotransporte/index.html', {"membresia":membresia,
                                                               "rutas":rutas,
                                                               "FormMembresia":formMembresia,
-                                                              "listaMembresia":listaMembresia,})
+                                                              "listaMembresia":listaMembresia,
+                                                              "listaAvisos":listaAvisos})
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST['Respuesta'])
+        user = User.objects.get(pk=request.user.pk)
+        if request.POST['Respuesta'] == "addAnuncio":
+            admob = Avisos()
+            admob.titulo = request.POST['titulo']
+            admob.mensaje = request.POST['mensaje']
+            admob.admin = user
+            admob.save()
+        return JsonResponse({"message": "Cambio realizado con exitoso"}, status=201)
+
+    def listasAvisos(self):
+        m = Avisos.objects.filter(fechaCreacion__month='04')
+        return m
     def cancelarPagosRetrasados(self,r):
         lista = Membresia.objects.filter(UsuarioFk=r.pk)
         for i in lista:

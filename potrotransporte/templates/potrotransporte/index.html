@@ -37,14 +37,21 @@ PotroTransporte
         <div class="list-group anyClass">
 
 
-          <a href="#" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-muted">3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
-  </a>
+
+
+            {%for d in listaAvisos %}
+
+                <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{d.titulo}}</h5>
+            <small class="text-muted">{{d.fechaCreacion}}</small>
+            </div>
+            <p class="mb-1">{{d.mensaje}}</p>
+            <small class="text-muted">Administrador</small>
+            </a>
+
+            {%endfor%}
+
 
 
         </div>
@@ -68,14 +75,21 @@ PotroTransporte
                                 <div class="card-body bg-dark">
 
                                     <form>
+                                                                                <div class="form-group">
+                                            <label for="tituloEntrada" class="text-light">Titulo:</label>
+                                                    <input type="text" class="form-control" id="tituloEntrada" rows="3">
+                                        </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlTextarea1" class="text-light">Anuncio:</label>
-                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                        </div>
-                                          <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+                                            <label for="mensajeAnuncio" class="text-light">Mensaje:</label>
+                                                    <textarea class="form-control" id="mensajeAnuncio" rows="3"></textarea>
 
+                                        </div>
+                                          <div class="alert alert-dark border border-dark bg-dark text-light" id="server-results2" role="alert">
+                                         </div>
                                     </form>
+                                    <button type="submit" class="btn btn-primary mb-2" onclick="eventoPublicar()">Publicar</button>
+
 
                                 </div>
                             </div>
@@ -488,11 +502,25 @@ function enviarPeticionMembresia(){
 
 function cancelarPeticion(){
 $('.submitBtn').attr("disabled","disabled");
-var idMembresia = $('#valorMembresia').val()
+var idMembresia = $('#valorMembresia').val();
 var respuesta = $('#respuestaCancelar').val();
 var data = {'Respuesta':respuesta,'idMembresia':idMembresia};
 var metodo='POST';
 var all = new Peticiones("{%url 'cobro_transporte'%}",metodo,data,"#server-results1");
+
+}
+
+
+function eventoPublicar(){
+console.debug("Yes");
+var titulo = $('#tituloEntrada').val();
+var mensaje =  $('#mensajeAnuncio').val();
+var data ={'Respuesta':'addAnuncio',
+            'titulo':titulo,
+            'mensaje':mensaje};
+
+console.debug(data);
+var all = new Peticiones("{%url 'index'%}",'POST',data,"#server-results2");
 
 }
 

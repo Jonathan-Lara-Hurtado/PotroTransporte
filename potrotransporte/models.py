@@ -120,6 +120,6 @@ class DetallePagoMembresia(models.Model):
 
 class Avisos(models.Model):
     titulo = models.CharField(max_length=30,blank=False)
-    cuerpo = models.CharField(max_length=30,blank=False)
+    mensaje = models.CharField(max_length=30,blank=False)
     admin = models.ForeignKey(User,on_delete=models.CASCADE,blank=False)
     fechaCreacion = models.DateField(_("Fecha"),default=datetime.date.today)
