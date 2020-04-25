@@ -216,13 +216,13 @@ PotroTransporte
                                             <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Crear</a>
                                                 {%if membresia %}
                                                     {%if membresia.get_EstadoPago_display == "Pagado"%}
-                                                    <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                    <a href="{%url 'Reserva'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
                                                     {%endif%}
                                                 {%endif%}
                                             {%else%}
                                                 {%if membresia %}
                                                     {%if membresia.get_EstadoPago_display == "Pagado"%}
-                                                    <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                    <a href="{%url 'Reserva'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
                                                     {%endif%}
                                                 {%endif%}
                                             {%endif%}

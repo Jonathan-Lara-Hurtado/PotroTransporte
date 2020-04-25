@@ -7,6 +7,10 @@ from .models import Transporte,Operador,TipoMembresias
 class FormularioMembresia(forms.Form):
     membresia = forms.ModelChoiceField(queryset=TipoMembresias.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
 
+
+class FormularioReserva(forms.Form):
+    pass
+
 class FormularioTiposCobro(forms.Form):
     Duracion = (
         ('S', 'Semanal'),

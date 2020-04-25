@@ -414,3 +414,11 @@ class VistaAsistencia(LoginRequiredMixin,TemplateView):
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response({'lista':'l'}, content_type="text/html; charset=utf-8")
+
+
+class VistaReservaAsistencia(LoginRequiredMixin,TemplateView):
+
+    template_name = "potrotransporte/Reserva.html"
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response({'l': 'l'})
