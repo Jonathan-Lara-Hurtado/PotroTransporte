@@ -20,6 +20,8 @@ path('crear_ruta/', views.VistaAgregarRuta.as_view(), name='crear_ruta'),
 path('cobro_transporte/', views.VistaCobro.as_view(), name='cobro_transporte'),
 path('membresia_historial/', views.VistaHistorialCobro.as_view(), name='membresia_historial'),
 path('membresia_historial-data/', views.VistaHistorialData.as_view(), name='membresia_historial-data'),
+path('asistencia/', views.VistaAsistencia.as_view(), name='Asistencia'),
+
 ]
 
 

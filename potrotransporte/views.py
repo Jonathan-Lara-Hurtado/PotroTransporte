@@ -407,3 +407,10 @@ class VistaCobro(LoginRequiredMixin,TemplateView):
         m.duracion = r.POST['Duracion']
         m.costoPorDuracion = r.POST['CostoMembresia']
         m.save()
+
+
+class VistaAsistencia(LoginRequiredMixin,TemplateView):
+    template_name = "potrotransporte/Asistencia.html"
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response({'lista':'l'}, content_type="text/html; charset=utf-8")

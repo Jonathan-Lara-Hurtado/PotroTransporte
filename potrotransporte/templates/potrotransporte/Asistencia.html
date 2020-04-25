@@ -1,0 +1,146 @@
+{% extends "potrotransporte/tmpindex.html" %}
+
+{%block titulo%}
+Asistencia
+{%endblock%}
+
+{%block cuerpo %}
+
+<div class="container-fluid">
+
+ <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+
+
+
+<div class="row">
+
+    <div class="col-12">
+    <div class="card">
+        <div class="card-header bg-warning text-center"> Camara Asistencia </div>
+
+        <div class="card-body bg-dark">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="fill">
+                        <div class="qrscanner" id="scanner">
+                        </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+
+                         <a href="#" id="btnStop" type="submit" class="btn btn-primary btn-block m-3" >Stop</a>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+</div>
+
+<script>
+function onQRCodeScanned(scannedText)
+    {
+        var video = document.getElementById("scanner");
+        if (video.style.display === "none") {
+    video.style.display = "block";
+  } else {
+    video.style.display = "none";
+  }
+
+    console.debug(scannedText);
+
+    	//var scannedTextMemo = document.getElementById("scannedTextMemo");
+    	//if(scannedTextMemo)
+    	//{
+    	//	scannedTextMemo.value = scannedText;
+    //		console.debug(scannedText);
+    //	}
+    //	var scannedTextMemoHist = document.getElementById("scannedTextMemoHist");
+    //	if(scannedTextMemoHist)
+    //	{
+    //		scannedTextMemoHist.value = scannedTextMemoHist.value + '\n' + scannedText;
+    //	}
+    }
+
+    function provideVideo()
+    {
+        var n = navigator;
+
+        if (n.mediaDevices && n.mediaDevices.getUserMedia)
+        {
+          return n.mediaDevices.getUserMedia({
+            video: {
+              facingMode: "environment"
+            },
+            audio: false
+          });
+        }
+
+        return Promise.reject('Your browser does not support getUserMedia');
+    }
+
+    function provideVideoQQ()
+    {
+        return navigator.mediaDevices.enumerateDevices()
+        .then(function(devices) {
+            var exCameras = [];
+            devices.forEach(function(device) {
+            if (device.kind === 'videoinput') {
+              exCameras.push(device.deviceId)
+            }
+         });
+
+            return Promise.resolve(exCameras);
+        }).then(function(ids){
+            if(ids.length === 0)
+            {
+              return Promise.reject('Could not find a webcam');
+            }
+
+            return navigator.mediaDevices.getUserMedia({
+                video: {
+                  'optional': [{
+                    'sourceId': ids.length === 1 ? ids[0] : ids[1]//this way QQ browser opens the rear camera
+                    }]
+                }
+            });
+        });
+    }
+
+    //this function will be called when JsQRScanner is ready to use
+    function JsQRScannerReady()
+    {
+        //create a new scanner passing to it a callback function that will be invoked when
+        //the scanner succesfully scan a QR code
+        var jbScanner = new JsQRScanner(onQRCodeScanned);
+        //var jbScanner = new JsQRScanner(onQRCodeScanned, provideVideo);
+        //reduce the size of analyzed image to increase performance on mobile devices
+        jbScanner.setSnapImageMaxSize(300);
+    	var scannerParentElement = document.getElementById("scanner");
+    	if(scannerParentElement)
+    	{
+    	    //append the jbScanner to an existing DOM element
+    		jbScanner.appendTo(scannerParentElement);
+    	}
+    }
+
+
+</script>
+
+
+{%endblock%}
+
+{%block pie %}
+{%endblock%}

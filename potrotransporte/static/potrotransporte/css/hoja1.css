@@ -16,6 +16,7 @@
     min-width: 100%;
 }
 
+
 #mapid
 {
     width: 100px;
@@ -23,4 +24,9 @@
     min-height: 100%;
     min-width: 100%;
     display: block;
+}
+
+
+.qrPreviewVideo{
+width:100%;
 }

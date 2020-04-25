@@ -14,6 +14,7 @@
 #-django-summernote
 #-mysqlclient
 #-django-stdimage
+#-SSL CERT https://github.com/teddziuba/django-sslserver
 ##########################################################################################
 
 
