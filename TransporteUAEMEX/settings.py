@@ -26,9 +26,8 @@ SECRET_KEY = '=0zdh#ah$i1rx^bhszc@ux&qh5qwdwx1nh62ibu=)3_f2)44j#'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+#"sslserver",
 INSTALLED_APPS = [
-    "sslserver",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
