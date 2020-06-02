@@ -69,7 +69,7 @@ Asistencia
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+
       </div>
     </div>
   </div>
@@ -86,16 +86,22 @@ Asistencia
 
 function onQRCodeScanned(scannedText)
     {
-        var video = document.getElementById("scanner");
-        if (video.style.display === "none") {
-    video.style.display = "block";
 
-  } else {
+    var video = document.getElementById("scanner");
     video.style.display = "none";
     $('#exampleModal').modal('show');
-  }
 
-    console.debug(scannedText);
+
+      //  var video = document.getElementById("scanner");
+    //    if (video.style.display === "none") {
+  //  video.style.display = "block";
+
+//  } else {
+    //video.style.display = "none";
+    //$('#exampleModal').modal('show');
+  //}
+
+ //   console.debug(scannedText);
 
 
     	//var scannedTextMemo = document.getElementById("scannedTextMemo");
@@ -172,6 +178,17 @@ function onQRCodeScanned(scannedText)
     		jbScanner.appendTo(scannerParentElement);
     	}
     }
+
+
+
+
+$('#exampleModal').on('hidden.bs.modal',function (e){
+
+var video = document.getElementById("scanner");
+video.style.display = "block";
+
+})
+
 
 
 </script>
