@@ -60,7 +60,6 @@ PotroTransporte
 
                  {%if request.user|has_group:"Administrativos" %}
 
-
                 <div class="col ">
 
                             <div class="card">
@@ -104,12 +103,45 @@ PotroTransporte
         <!--Fin de Anuncio Tabla -->
 
 
+
+
         <!--Inicio de atajos de menu -->
         <div class="col">
 
             <div class="card bg-dark">
                 <div class="card-body">
 
+                   {%if request.user|has_group:"Operadores"%}
+
+                    <div class="row">
+
+                        <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-warning text-center">Ruta asignada</div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+
+                        </div>
+
+                        <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header bg-warning text-center">Iniciar Ruta:</div>
+                                    <div class="card-body">
+                                        <a class="btn btn-primary btn-block" href="{%url 'Asistencia'%}">Iniciar</a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                    </div>
+
+
+                    {%else%}
                     <!--Inicio de dialogos -->
 
 
@@ -273,7 +305,7 @@ PotroTransporte
 
 
                     <!--Fin de dialogos -->
-
+                                        {%endif%}
 
                 </div>
             </div>
