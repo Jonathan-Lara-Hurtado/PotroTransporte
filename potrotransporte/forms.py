@@ -55,7 +55,8 @@ class Registro(forms.Form):
 
         if not self.ValidacionCorreoInstitucional(correo):
             raise forms.ValidationError(u'El correo electronico no es Institucional debe ser de la siguiente forma @alumno.uaemex.com o @profesor.uaemex.com')
-        elif User.objects.filter(username=username).exists():
+
+        if User.objects.filter(username=username).exists():
             raise forms.ValidationError(u'El correo electronico ya esta en uso')
         else:
             if password != confirm_password:
@@ -65,7 +66,7 @@ class Registro(forms.Form):
 
     def ValidacionCorreoInstitucional(self,correo):
         c = correo.split("@")
-        if c[1] == "@profesor.uaemex.com" or c[1] == "@alumno.uaemex.com":
+        if c[1] == "profesor.uaemex.mx" or c[1] == "alumno.uaemex.mx":
             return True
         else:
             return False
