@@ -82,14 +82,20 @@ Asistencia
 
 <script>
 
-
+var objeto;
+var detener = false;
 
 function onQRCodeScanned(scannedText)
     {
 
     var video = document.getElementById("scanner");
     video.style.display = "none";
+
     $('#exampleModal').modal('show');
+    console.debug(scannedText);
+    objeto.stopScanning();
+//    document.getElementById("scanner").stopScanning();
+    //jbScanner.stopScanning();
 
 
       //  var video = document.getElementById("scanner");
@@ -101,7 +107,6 @@ function onQRCodeScanned(scannedText)
     //$('#exampleModal').modal('show');
   //}
 
- //   console.debug(scannedText);
 
 
     	//var scannedTextMemo = document.getElementById("scannedTextMemo");
@@ -172,11 +177,17 @@ function onQRCodeScanned(scannedText)
         //reduce the size of analyzed image to increase performance on mobile devices
         jbScanner.setSnapImageMaxSize(300);
     	var scannerParentElement = document.getElementById("scanner");
+
+    	objeto = jbScanner;
+    	//console.debug(objeto);
     	if(scannerParentElement)
     	{
     	    //append the jbScanner to an existing DOM element
     		jbScanner.appendTo(scannerParentElement);
+
     	}
+
+
     }
 
 
@@ -186,7 +197,7 @@ $('#exampleModal').on('hidden.bs.modal',function (e){
 
 var video = document.getElementById("scanner");
 video.style.display = "block";
-
+objeto.resumeScanning();
 })
 
 
