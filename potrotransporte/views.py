@@ -288,18 +288,37 @@ class VistaAgregarRuta(LoginRequiredMixin,TemplateView):
 
     def post(self, resquest):
         if has_group(user=resquest.user, group_name="Administrativos"):
-            form = FormularioCrearRuta(resquest.POST)
-            if form.is_valid():
-                f = Ruta()
-                f.NombreRuta = form.data['NombreRuta']
-                f.Horario=form.data['Horario']
-                f.Latitud=form.data['Latitud']
-                f.Longitud=form.data['Longitud']
-                f.TransporteFK = Transporte.objects.get(pk= form.data['Transporte'])
+            Resultado = resquest.POST['Resultado']
+            if Resultado == "Operador":
+                g_Operadores, operadored = Group.objects.get_or_create(name='Operadores')
+                f = User.objects.create_user(resquest.POST['Correo'],
+                                             resquest.POST['Correo'],
+                                             resquest.POST['Contrasena'])
+                f.first_name = resquest.POST['Nombre']
+                f.last_name = resquest.POST['Apellidos']
+                f.is_active = True
+                f.groups.add(g_Operadores)
                 f.save()
+                m = Operador()
+                m.PKUsuario = User.objects.get(pk=f.pk)
+                m.Licencia = resquest.POST['Licencia']
+                m.telefono = resquest.POST['Telefono']
+                m.Dirrecion = resquest.POST['Direccion']
+                m.save()
                 return redirect('/')
             else:
-                return HttpResponse("error al agregar ruta")
+                form = FormularioCrearRuta(resquest.POST)
+                if form.is_valid():
+                    f = Ruta()
+                    f.NombreRuta = form.data['NombreRuta']
+                    f.Horario=form.data['Horario']
+                    f.Latitud=form.data['Latitud']
+                    f.Longitud=form.data['Longitud']
+                    f.TransporteFK = Transporte.objects.get(pk= form.data['Transporte'])
+                    f.save()
+                    return redirect('/')
+                else:
+                    return HttpResponse("error al agregar ruta")
         else:
             return redirect('/')
 

@@ -16,13 +16,14 @@ class DatosPersonales(models.Model):
         return self.NumeroDeCuenta
 
 class Operador(models.Model):
-    Nombre = models.CharField(max_length=20,default="")
+    #Nombre = models.CharField(max_length=20,default="")
+    PKUsuario = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
     Licencia = models.CharField(max_length=20,default="")
     telefono = models.CharField(max_length=15,default="")
     Dirrecion = models.CharField(max_length=20,default="")
 
     def __str__(self):
-        return self.Nombre
+        return str(self.PKUsuario.first_name)
 
 
 class Transporte(models.Model):

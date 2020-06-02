@@ -54,7 +54,7 @@ class Registro(forms.Form):
         correo = limpiar_Datos.get("your_email")
 
         if not self.ValidacionCorreoInstitucional(correo):
-            raise forms.ValidationError(u'El correo electronico no es Institucional debe ser de la siguiente forma @alumno.uaemex.com o @profesor.uaemex.com')
+            raise forms.ValidationError(u'El correo electronico no es Institucional debe ser de la siguiente forma @alumno.uaemex.mx o @profesor.uaemex.mx')
 
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError(u'El correo electronico ya esta en uso')
@@ -108,12 +108,18 @@ class FormularioCrearRuta(forms.Form):
 
 
 class FormularioCrearOperadores(forms.Form):
-    Nombre = forms.CharField(label="Nombre:",max_length=20)
+    Correo = forms.CharField(label="Correo: ",max_length=20)
+    Contrasena = forms.CharField(label=_('Contraseña'), widget=forms.PasswordInput, required=True)
+    Nombre = forms.CharField(label="Nombres:",max_length=20)
+    Apellidos = forms.CharField(label="Apellidos:",max_length=20)
     Licencia = forms.CharField(label="licencia",max_length=20)
     Telefono = forms.CharField(label="Telefono",max_length=15)
     Direccion = forms.CharField(label="Dirreccion",max_length=20)
 
+    Correo.widget = forms.TextInput(attrs={'class':"form-control"})
+    Contrasena.widget = forms.TextInput(attrs={'class':"form-control",'type':"password"})
     Nombre.widget=forms.TextInput(attrs={'class':"form-control"})
+    Apellidos.widget=forms.TextInput(attrs={'class':"form-control"})
     Licencia.widget=forms.TextInput(attrs={'class':"form-control"})
     Telefono.widget=forms.TextInput(attrs={'class':"form-control"})
     Direccion.widget=forms.TextInput(attrs={'class':"form-control"})

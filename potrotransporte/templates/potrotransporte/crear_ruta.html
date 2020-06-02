@@ -79,12 +79,13 @@ Crear Ruta
                           <div class="form-row">
                           {%for f in form2 %}
                             <div class="form-group col-md-6">
-                            <label for="{{ f.id_for_label }}">{{f.name}}</label>
+                            <label for="{{ f.id_for_label }}">{{ f.label }}</label>
                                 {{f}}
                             </div>
                           {%endfor%}
 
 
+                             <input type="hidden" id="Resultado" name="Resultado" value="Operador">
 
                       </div>
                     <button type="submit" class="btn btn-primary">Agregar</button>
