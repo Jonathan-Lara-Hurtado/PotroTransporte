@@ -135,7 +135,7 @@ class VistaRegistroAdmin(RedirectView):
             message = render_to_string('potrotransporte/activate_account.html', {
                 'user': f,
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(f.pk)).decode(),
+                'uid': urlsafe_base64_encode(force_bytes(f.pk)),
                 'token': account_activation_token.make_token(f),
             })
             to_email = form.cleaned_data.get('your_email')
