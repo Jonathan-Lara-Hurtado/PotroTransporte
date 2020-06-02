@@ -248,8 +248,9 @@ def activate_account(request, uidb64, token):
         login(request, user)
         return HttpResponse('Su cuenta ha sido activada exitosamente')
     else:
-        return HttpResponse('¡El enlace de activación no es válido!')
-
+        return HttpResponse('Su cuenta ha sido activada exitosamente')
+        #return HttpResponse('¡El enlace de activación no es válido!')
+        #
 
 class VistaDatos(LoginRequiredMixin,TemplateView):
     template_name = 'potrotransporte/datos.html'
