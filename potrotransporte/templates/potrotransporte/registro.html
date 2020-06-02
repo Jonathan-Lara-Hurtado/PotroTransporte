@@ -9,6 +9,13 @@
   <link rel="stylesheet" type="text/css" href="{% static 'potrotransporte/bootstrap/css/bootstrap.css' %}">
   <script src="{% static 'potrotransporte/jquery.min.js' %}"></script>
   <script src="{% static 'potrotransporte/bootstrap/js/bootstrap.js' %} "></script>
+<style>
+
+    .errorlist {
+    list-style: none;
+    }
+
+</style>
 
 </head>
 
@@ -55,9 +62,10 @@
         {{form.repeat_password}}
      </div>
 
-<div class="alert alert-light" role="alert">
+<div class="alert alert-primary" role="alert">
  {{form.non_field_errors}}
 </div>
+
 
 
 
@@ -67,6 +75,9 @@
 </div>
 
 </div>
+
+
+
 
 
 

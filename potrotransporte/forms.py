@@ -51,13 +51,24 @@ class Registro(forms.Form):
         password = limpiar_Datos.get("your_password")
         confirm_password = limpiar_Datos.get("repeat_password")
         username = limpiar_Datos.get("your_email")
-        if User.objects.filter(username=username).exists():
+        correo = limpiar_Datos.get("your_email")
+
+        if not self.ValidacionCorreoInstitucional(correo):
+            raise forms.ValidationError(u'El correo electronico no es Institucional debe ser de la siguiente forma @alumno.uaemex.com o @profesor.uaemex.com')
+        elif User.objects.filter(username=username).exists():
             raise forms.ValidationError(u'El correo electronico ya esta en uso')
         else:
             if password != confirm_password:
                 raise forms.ValidationError(
                     "Las contraseña no coinciden"
                 )
+
+    def ValidacionCorreoInstitucional(self,correo):
+        c = correo.split("@")
+        if c[1] == "@profesor.uaemex.com" or c[1] == "@alumno.uaemex.com":
+            return True
+        else:
+            return False
 
 
 
