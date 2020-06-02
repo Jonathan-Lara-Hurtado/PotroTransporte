@@ -246,9 +246,9 @@ def activate_account(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return HttpResponse('Su cuenta ha sido activada exitosamente')
+        return HttpResponse('Su cuenta ha sido activada exitosamente <br><a href="https://jonabimael.pythonanywhere.com/potrotransporte/acceso/">Acceso</a>')
     else:
-        return HttpResponse('Su cuenta ha sido activada exitosamente')
+        return HttpResponse('Su cuenta ha sido activada exitosamente <br><a href="https://jonabimael.pythonanywhere.com/potrotransporte/acceso/">Acceso</a>')
         #return HttpResponse('¡El enlace de activación no es válido!')
         #
 
