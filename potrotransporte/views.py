@@ -453,10 +453,44 @@ class VistaAsistencia(LoginRequiredMixin,TemplateView):
         return self.render_to_response({'lista':'l'}, content_type="text/html; charset=utf-8")
 
     def post(self, resquest):
-        print(resquest.POST)
+        usuario = User.objects.get(username=resquest.POST['Usuario'])
+ #       reservaRuta = RutaReserva.objects.get(UsuarioFK= usuario)
+        reservaRuta = RutaReserva.objects.filter(UsuarioFK=usuario,estadoReserva='P')
+        listaAsistencia = Asistencia.objects.filter(ReservaFK=reservaRuta)
+        hora_actual = datetime.datetime.now()
+        if len(reservaRuta)!=0:
+            if reservaRuta[0].turno == 'M' and hora_actual.hour < 13:
+                if listaAsistencia:
+                    return  JsonResponse({"message": str(hora_actual)})
+                else:
+                    mAs = Asistencia()
+                    mAs.ReservaFK = reservaRuta[0]
+                    mAs.ida=True
+                    mAs.vuelta=False
+                    mAs.save()
+            elif reservaRuta[0].turno == 'V' and hora_actual.hour > 13:
+                if listaAsistencia:
+                    return  JsonResponse({"message": str(hora_actual)})
+                else:
+                    mAs = Asistencia()
+                    mAs.ReservaFK = reservaRuta[0]
+                    mAs.ida=True
+                    mAs.vuelta=False
+                    mAs.save()
+            else:
+                return JsonResponse({"message": "Acceso Denegado verifique que sea su turno"}, status=201)
+        else:
+            return JsonResponse({"message": "Usted no tiene reserva"}, status=201)
 
-        return JsonResponse({"message": "hola mundo"}, status=201)
-
+#        if listaAsistencia:
+#            return  JsonResponse({"message": str(hora_actual)})
+ #       else:
+  #          mAs = Asistencia()
+   #         mAs.ReservaFK = reservaRuta
+    #        mAs.ida=True
+     #       mAs.vuelta=False
+      #      mAs.save()
+       #     return  JsonResponse({"message": "Asistencia Agregada"}, status=201)
 
 class VistaReservaAsistencia(LoginRequiredMixin,TemplateView):
 
