@@ -55,12 +55,14 @@ class MembresiaHerramienta:
 class VistaPrincipal(RedirectView):
 
     def get(self, request, *args, **kwargs):
+        Group.objects.get_or_create(name='Usuarios')
         rutas = Ruta.objects.all()
         formMembresia = FormularioMembresia()
         listaMembresia= TipoMembresias.objects.all()
         self.cancelarPagosRetrasados(request.user)
         membresia = self.MembresiaActivaoPendiente(request.user)
         listaAvisos = self.listasAvisos()
+        self.cancelarReserva(request)
 #        listaAsistencia = self.Asistencia(request.user)
         listaAsistencia = self.Asistencia(request.user)
         return render(request, 'potrotransporte/index.html', {"membresia":membresia,
@@ -85,9 +87,29 @@ class VistaPrincipal(RedirectView):
         m = Avisos.objects.filter(fechaCreacion__month='04')
         return m
 
+    def cancelarReserva(self,request):
+        if has_group(user=request.user,group_name="Administrativos") or has_group(user=request.user,group_name="Usuarios"):
+            lista = RutaReserva.objects.filter(estadoReserva = 'P' , UsuarioFK=request.user.pk)
+            hora_actual = datetime.datetime.now()
+            if lista:
+                fecha = lista[0].fechaRegistro
+                fecha = fecha + datetime.timedelta(days=1)
+                if fecha == datetime.date.today():
+                    if lista[0].turno == 'M' and hora_actual.hour > 13  :
+                        tmpRutaReserva = RutaReserva.objects.get(pk=lista[0].pk)
+                        tmpRutaReserva.estadoReserva = 'C'
+                        tmpRutaReserva.save()
+
+                    if lista[0].turno == 'V' and hora_actual.hour > 22:
+                        tmpRutaReserva = RutaReserva.objects.get(pk=lista[0].pk)
+                        tmpRutaReserva.estadoReserva = 'C'
+                        tmpRutaReserva.save()
+
+
     def Asistencia(self,r):
         lm = RutaReserva.objects.filter(estadoReserva = 'P' , UsuarioFK=r.pk)
         return lm
+
 
     def cancelarPagosRetrasados(self,r):
         lista = Membresia.objects.filter(UsuarioFk=r.pk)
