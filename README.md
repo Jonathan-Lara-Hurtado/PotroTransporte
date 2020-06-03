@@ -20,31 +20,6 @@ pip install django-qr-code
 
 
 
-
-##########################################################################################
-# Configuracion de usuario mysql para la aplicacion
-#-sudo su
-#-mysql
-#creacion del usuario
-#CREATE USER 'mercadoln'@'localhost' IDENTIFIED BY '36368795';
-#GRANT ALL PRIVILEGES ON mercadoln.* TO 'mercadoln'@'localhost';
-#create database mercadoln;
-#Nota: Esto se puede modificar en mercadolnd/settings.py donde esta el siguiente fragmento
-#
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'mercadoln',
-#        'USER': 'mercadoln',
-#        'PASSWORD': '36368795',
-#        'HOST': '127.0.0.1',
-#        'PORT': '3306'
-#    }
-#}
-#
-##########################################################################################
-
-
 ##########################################################################################
 #ejecutar por primera vez la aplicacion
 #python3 manage.py
