@@ -61,6 +61,7 @@ class VistaPrincipal(RedirectView):
         self.cancelarPagosRetrasados(request.user)
         membresia = self.MembresiaActivaoPendiente(request.user)
         listaAvisos = self.listasAvisos()
+#        listaAsistencia = self.Asistencia(request.user)
         listaAsistencia = self.Asistencia(request.user)
         return render(request, 'potrotransporte/index.html', {"membresia":membresia,
                                                               "rutas":rutas,
@@ -85,8 +86,7 @@ class VistaPrincipal(RedirectView):
         return m
 
     def Asistencia(self,r):
-        manana=datetime.date.today() +datetime.timedelta(days=1)
-        lm = Asistencia.objects.filter(fechaReserva__day=manana.day,ReservaFK=r.pk)
+        lm = RutaReserva.objects.filter(estadoReserva = 'P' , UsuarioFK=r.pk)
         return lm
 
     def cancelarPagosRetrasados(self,r):
@@ -469,18 +469,11 @@ class VistaReservaAsistencia(LoginRequiredMixin,TemplateView):
                                         'rutas':rutas})
 
     def post(self, resquest):
-        print(resquest.POST)
-        mA = Asistencia()
-        mA.ReservaFK = User.objects.get(pk=resquest.user.pk)
-        if resquest.POST['ida'] == 'on':
-            mA.ida = True
-        else:
-            mA.ida =False
-        if resquest.POST['vuelta'] == 'on':
-            mA.vuelta = True
-        else:
-            mA.vuelta = False
-
-        mA.rutaFK = Ruta.objects.get(pk=resquest.POST['RutaFK'])
+       # print(resquest.POST)
+        mA = RutaReserva()
+        mA.UsuarioFK = User.objects.get(pk=resquest.user.pk)
+        mA.RutaFk = Ruta.objects.get(pk=resquest.POST['RutaFK'])
+        mA.estadoReserva = 'P'
+        mA.turno = resquest.POST['turno']
         mA.save()
         return redirect('/')

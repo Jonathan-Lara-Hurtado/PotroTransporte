@@ -137,6 +137,9 @@ class FormularioTransporte(forms.Form):
 
 
 class FormularioReserva(forms.Form):
-    ida = forms.BooleanField(label="Ida",widget=forms.CheckboxInput(attrs={'class':'form-check'}))
-    vuelta = forms.BooleanField(label="Vuelta",widget=forms.CheckboxInput(attrs={'class':'form-check'}))
+    turnoEscolar = (
+        ('M', 'Matutino'),
+        ('V', 'Vespertino'),
+    )
+    turno = forms.ChoiceField(label="Turno:",choices=turnoEscolar,widget=forms.Select(attrs={'class':'form-control'}))
     RutaFK= forms.ModelChoiceField(label="Ruta",queryset=Ruta.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))

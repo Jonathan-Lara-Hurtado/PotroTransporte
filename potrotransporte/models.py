@@ -73,7 +73,7 @@ class Asistencia(models.Model):
     ReservaFK = models.ForeignKey(RutaReserva,on_delete=models.CASCADE,default="")
     ida = models.BooleanField(default=False)
     vuelta = models.BooleanField(default=False)
-    rutaFK = models.ForeignKey(Ruta,on_delete=models.CASCADE,default=1)
+    #rutaFK = models.ForeignKey(Ruta,on_delete=models.CASCADE,default=1)
     fechaDeIda = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
     fechaVuelta = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
 
