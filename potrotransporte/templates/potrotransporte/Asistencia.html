@@ -60,13 +60,12 @@ Asistencia
             <label for="recipient-name" class="col-form-label">De:</label>
             <input type="text" class="form-control" id="recipient-name" readonly>
           </div>
-            <div class="alert alert-light" id="server-results1" role="alert">
+            <div class="alert alert-light" id="server-results" role="alert">
                     </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
       </div>
     </div>
   </div>
@@ -196,9 +195,23 @@ $('#exampleModal').on('hidden.bs.modal',function (e){
 var video = document.getElementById("scanner");
 video.style.display = "block";
 objeto.resumeScanning();
-})
+});
+
+configurarCSRF();
+$('#exampleModal').on('show.bs.modal',function (e){
+
+enviarPeticionAsistencia();
 
 
+});
+
+
+
+function enviarPeticionAsistencia(){
+     var data = {'Respuesta':'Asistencia','Usuario':document.getElementById("recipient-name").value};
+     var metodo = 'POST';
+     var all = new PeticionesV2("{%url 'Asistencia'%}",metodo,data,"#server-results");
+}
 
 </script>
 

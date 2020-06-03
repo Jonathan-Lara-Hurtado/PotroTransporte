@@ -453,7 +453,9 @@ class VistaAsistencia(LoginRequiredMixin,TemplateView):
         return self.render_to_response({'lista':'l'}, content_type="text/html; charset=utf-8")
 
     def post(self, resquest):
-        pass
+        print(resquest.POST)
+
+        return JsonResponse({"message": "hola mundo"}, status=201)
 
 
 class VistaReservaAsistencia(LoginRequiredMixin,TemplateView):

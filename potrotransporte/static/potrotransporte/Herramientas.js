@@ -114,6 +114,36 @@ function Peticiones(url,metodo,tipo,mms){
 }
 
 
+
+
+
+
+function PeticionesV2(url,metodo,tipo,mms){
+
+
+
+ $.ajax({
+        url : url,
+        type: metodo,
+        data : tipo,
+
+    }).done(function(msg){ //
+
+        var objeto = JSON.parse(JSON.stringify(msg));
+
+        $(mms).html(objeto.message);
+
+
+    });
+
+
+}
+
+
+
+
+
+
   function eventoTecla(input,numMetodo){
 
     var input = document.getElementById(input)
