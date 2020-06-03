@@ -257,6 +257,7 @@ class VistaDatos(LoginRequiredMixin,TemplateView):
     login_url = 'acceso'
 
     def get(self, request):
+
         return self.render_to_response({})
 
 
