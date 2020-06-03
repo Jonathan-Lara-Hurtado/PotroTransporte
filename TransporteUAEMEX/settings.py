@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'potrotransporte.apps.PotrotransporteConfig',
-
-
+    'qr_code',
 ]
 
 MIDDLEWARE = [

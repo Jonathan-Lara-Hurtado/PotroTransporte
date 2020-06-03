@@ -1,5 +1,5 @@
 {% extends "potrotransporte/tmpindex.html" %}
-
+{% load qr_code %}
 
 {%block titulo%}
 Datos
@@ -7,8 +7,9 @@ Datos
 {%block cuerpo%}
 <div class="container-fluid mt-5">
     <div class="row pt-2 mt-5">
-        <div class="col mt-5">
-                <div class="card mb-5 mt-5">
+
+        <div class="col ">
+                <div class="card mb-5">
                     <div class="card-header bg-dark">
                     <h1 class="h1 mb-0 text-gray-800 text-light">Mis Datos</h1>
                     </div>
@@ -28,32 +29,25 @@ Datos
                            {%endif%}
                 </div>
         </div>
-    </div>
 
 
-
-        <div class="row">
-        <div class="col ">
-                <div class="card mb-5">
-                    <div class="card-header bg-dark">
-                    <h1 class="h1 mb-0 text-gray-800 text-light">Datos Escuela</h1>
-                    </div>
-                          {% if user.is_authenticated%}
-
-                                {%if  user.datospersonales_set.all %}
-                                si tengo
-                                {%else%}
-                                <button class="btn btn-primary">Dar de alta informacion</button>
-                                {% endif%}
-
-
-                           {%endif%}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h1 class="h1 mb-0 text-gray-800 text-light">QR</h1>
                 </div>
+                <div class="card-body">{%qr_from_text "Hello World!" size=20  %}</div>
+
+            </div>
+
+
         </div>
+
+
+
+
+
     </div>
-
-
-
 </div>
 {%endblock%}
 
