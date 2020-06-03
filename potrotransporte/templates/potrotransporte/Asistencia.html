@@ -211,7 +211,13 @@ function enviarPeticionAsistencia(){
      var data = {'Respuesta':'Asistencia','Usuario':document.getElementById("recipient-name").value};
      var metodo = 'POST';
      var all = new PeticionesV2("{%url 'Asistencia'%}",metodo,data,"#server-results");
+     setTimeout(anuncio,6000);
 }
+
+function anuncio(){
+  $('#exampleModal').modal('hide');
+}
+
 
 </script>
 

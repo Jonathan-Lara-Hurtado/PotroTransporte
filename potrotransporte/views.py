@@ -456,41 +456,52 @@ class VistaAsistencia(LoginRequiredMixin,TemplateView):
         usuario = User.objects.get(username=resquest.POST['Usuario'])
  #       reservaRuta = RutaReserva.objects.get(UsuarioFK= usuario)
         reservaRuta = RutaReserva.objects.filter(UsuarioFK=usuario,estadoReserva='P')
-        listaAsistencia = Asistencia.objects.filter(ReservaFK=reservaRuta)
+        listaAsistencia = Asistencia.objects.filter(ReservaFK=reservaRuta[0])
         hora_actual = datetime.datetime.now()
+ #       hora_actual =hora_actual + datetime.timedelta(hours=3)
+#        hora_actual = hora_actual - datetime.timedelta(hours=5)
         if len(reservaRuta)!=0:
             if reservaRuta[0].turno == 'M' and hora_actual.hour < 13:
-                if listaAsistencia:
-                    return  JsonResponse({"message": str(hora_actual)})
+                if len(listaAsistencia) != 0:
+                    if hora_actual.hour > 11 and listaAsistencia[0].vuelta == False:
+                        tmpAsis = Asistencia.objects.get(pk=listaAsistencia[0].pk)
+                        tmpAsis.vuelta = True
+                        tmpAsis.save()
+                        return JsonResponse({"message": 'Acceso Permitido'}, status=201)
+                    elif hora_actual.hour > 11 and listaAsistencia[0].vuelta == True:
+                        return JsonResponse({"message": 'Usted ya paso asistencia Vuelta'}, status=201)
+                    else:
+                        return JsonResponse({"message": 'Usted ya paso asistencia Ida'}, status=201)
                 else:
                     mAs = Asistencia()
                     mAs.ReservaFK = reservaRuta[0]
-                    mAs.ida=True
-                    mAs.vuelta=False
+                    mAs.ida = True
+                    mAs.vuelta = False
                     mAs.save()
+                    return JsonResponse({"message": 'Acceso Permitido'}, status=201)
             elif reservaRuta[0].turno == 'V' and hora_actual.hour > 13:
-                if listaAsistencia:
-                    return  JsonResponse({"message": str(hora_actual)})
+                if len(listaAsistencia)!=0:
+                    if hora_actual.hour > 19 and listaAsistencia[0].vuelta == False:
+                        tmpAsis = Asistencia.objects.get(pk=listaAsistencia[0].pk)
+                        tmpAsis.vuelta = True
+                        tmpAsis.save()
+                        return JsonResponse({"message": 'Acceso Permitido'}, status=201)
+                    elif hora_actual.hour > 19 and listaAsistencia[0].vuelta == True:
+                        return JsonResponse({"message": 'Usted ya paso asistencia Vuelta'}, status=201)
+                    else:
+                        return JsonResponse({"message":'Usted ya paso asistencia Ida'}, status=201)
                 else:
                     mAs = Asistencia()
                     mAs.ReservaFK = reservaRuta[0]
                     mAs.ida=True
                     mAs.vuelta=False
                     mAs.save()
+                    return JsonResponse({"message": 'Acceso Permitido'}, status=201)
             else:
                 return JsonResponse({"message": "Acceso Denegado verifique que sea su turno"}, status=201)
         else:
             return JsonResponse({"message": "Usted no tiene reserva"}, status=201)
 
-#        if listaAsistencia:
-#            return  JsonResponse({"message": str(hora_actual)})
- #       else:
-  #          mAs = Asistencia()
-   #         mAs.ReservaFK = reservaRuta
-    #        mAs.ida=True
-     #       mAs.vuelta=False
-      #      mAs.save()
-       #     return  JsonResponse({"message": "Asistencia Agregada"}, status=201)
 
 class VistaReservaAsistencia(LoginRequiredMixin,TemplateView):
 

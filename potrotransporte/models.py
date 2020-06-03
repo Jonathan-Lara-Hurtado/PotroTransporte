@@ -78,7 +78,7 @@ class Asistencia(models.Model):
     fechaVuelta = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
 
     def __str__(self):
-        return str(self.fechaReserva)
+        return str(self.ReservaFK)
 
 
 
