@@ -61,11 +61,13 @@ class VistaPrincipal(RedirectView):
         self.cancelarPagosRetrasados(request.user)
         membresia = self.MembresiaActivaoPendiente(request.user)
         listaAvisos = self.listasAvisos()
+        listaAsistencia = self.Asistencia(request.user)
         return render(request, 'potrotransporte/index.html', {"membresia":membresia,
                                                               "rutas":rutas,
                                                               "FormMembresia":formMembresia,
                                                               "listaMembresia":listaMembresia,
-                                                              "listaAvisos":listaAvisos})
+                                                              "listaAvisos":listaAvisos,
+                                                              "Asistencia":listaAsistencia})
 
     def post(self, request, *args, **kwargs):
         print(request.POST['Respuesta'])
@@ -81,6 +83,12 @@ class VistaPrincipal(RedirectView):
     def listasAvisos(self):
         m = Avisos.objects.filter(fechaCreacion__month='04')
         return m
+
+    def Asistencia(self,r):
+        manana=datetime.date.today() +datetime.timedelta(days=1)
+        lm = Asistencia.objects.filter(fechaReserva__day=manana.day,ReservaFK=r.pk)
+        return lm
+
     def cancelarPagosRetrasados(self,r):
         lista = Membresia.objects.filter(UsuarioFk=r.pk)
         for i in lista:
@@ -307,6 +315,14 @@ class VistaAgregarRuta(LoginRequiredMixin,TemplateView):
                 m.Dirrecion = resquest.POST['Direccion']
                 m.save()
                 return redirect('/')
+            elif Resultado == "Transporte":
+                mT = Transporte()
+                mT.Nombre = resquest.POST['Nombre']
+                mT.Tipo = resquest.POST['Tipo']
+                mT.Matricula =resquest.POST['Matricula']
+                mT.OperadorFK = Operador.objects.get(pk=resquest.POST['OperadorFk'])
+                mT.save()
+                return redirect('/')
             else:
                 form = FormularioCrearRuta(resquest.POST)
                 if form.is_valid():
@@ -436,10 +452,33 @@ class VistaAsistencia(LoginRequiredMixin,TemplateView):
     def get(self, request, *args, **kwargs):
         return self.render_to_response({'lista':'l'}, content_type="text/html; charset=utf-8")
 
+    def post(self, resquest):
+        pass
+
 
 class VistaReservaAsistencia(LoginRequiredMixin,TemplateView):
 
     template_name = "potrotransporte/Reserva.html"
 
     def get(self, request, *args, **kwargs):
-        return self.render_to_response({'l': 'l'})
+        rutas = Ruta.objects.all()
+        formAsistencia = FormularioReserva
+        return self.render_to_response({'formularioAsistencia': formAsistencia,
+                                        'rutas':rutas})
+
+    def post(self, resquest):
+        print(resquest.POST)
+        mA = Asistencia()
+        mA.ReservaFK = User.objects.get(pk=resquest.user.pk)
+        if resquest.POST['ida'] == 'on':
+            mA.ida = True
+        else:
+            mA.ida =False
+        if resquest.POST['vuelta'] == 'on':
+            mA.vuelta = True
+        else:
+            mA.vuelta = False
+
+        mA.rutaFK = Ruta.objects.get(pk=resquest.POST['RutaFK'])
+        mA.save()
+        return redirect('/')

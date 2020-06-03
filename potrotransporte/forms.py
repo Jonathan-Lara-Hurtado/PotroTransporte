@@ -2,7 +2,7 @@ from django import forms
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import PBKDF2SHA1PasswordHasher, SHA1PasswordHasher,check_password
-from .models import Transporte,Operador,TipoMembresias
+from .models import Transporte,Operador,TipoMembresias,Ruta
 
 class FormularioMembresia(forms.Form):
     membresia = forms.ModelChoiceField(queryset=TipoMembresias.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
@@ -134,3 +134,9 @@ class FormularioTransporte(forms.Form):
     Nombre.widget=forms.TextInput(attrs={'class':"form-control"})
     Tipo.widget=forms.TextInput(attrs={'class':"form-control"})
     Matricula.widget=forms.TextInput(attrs={'class':"form-control"})
+
+
+class FormularioReserva(forms.Form):
+    ida = forms.BooleanField(label="Ida",widget=forms.CheckboxInput(attrs={'class':'form-check'}))
+    vuelta = forms.BooleanField(label="Vuelta",widget=forms.CheckboxInput(attrs={'class':'form-check'}))
+    RutaFK= forms.ModelChoiceField(label="Ruta",queryset=Ruta.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))

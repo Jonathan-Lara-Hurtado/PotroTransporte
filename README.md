@@ -16,6 +16,7 @@
 #-django-stdimage
 #-SSL CERT https://github.com/teddziuba/django-sslserver
 ##########################################################################################
+pip install django-qr-code
 
 
 

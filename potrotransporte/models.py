@@ -70,14 +70,17 @@ class RutaReserva(models.Model):
 
 class Asistencia(models.Model):
 
-    ReservaFK = models.ForeignKey(RutaReserva,on_delete=models.CASCADE,default="")
+#    ReservaFK = models.ForeignKey(RutaReserva,on_delete=models.CASCADE,default="")
+    ReservaFK = models.ForeignKey(User,on_delete=models.CASCADE,default="")
     ida = models.BooleanField(default=False)
     vuelta = models.BooleanField(default=False)
-    fechaDeIda = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
-    fechaVuelta = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
+    rutaFK = models.ForeignKey(Ruta,on_delete=models.CASCADE,default=1)
+    fechaReserva = models.DateField(default=(datetime.date.today() +datetime.timedelta(days=1)))
+#    fechaDeIda = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
+ #   fechaVuelta = models.DateTimeField(_("Fecha"),default=(datetime.date.today() +datetime.timedelta(days=1)))
 
     def __str__(self):
-        return str(self.fechaDeReserva)
+        return str(self.fechaReserva)
 
 
 

@@ -220,6 +220,10 @@ PotroTransporte
 
                                             </div>
 
+
+
+
+
                         <div class="col">
                             <div class="card ">
                                 <div class="card-header bg-warning text-center">Rutas</div>
@@ -248,14 +252,21 @@ PotroTransporte
                                             <a href="{%url 'crear_ruta'%}" type="submit" class="btn btn-primary btn-block m-3">Crear</a>
                                                 {%if membresia %}
                                                     {%if membresia.get_EstadoPago_display == "Pagado"%}
-                                                    <a href="{%url 'Reserva'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                        {%if not Asistencia %}
+                                                        <a href="{%url 'Reserva'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
+                                                        {%endif%}
                                                     {%endif%}
                                                 {%endif%}
                                             {%else%}
                                                 {%if membresia %}
+
                                                     {%if membresia.get_EstadoPago_display == "Pagado"%}
+                                                    {%if not Asistencia %}
                                                     <a href="{%url 'Reserva'%}" type="submit" class="btn btn-primary btn-block m-3">Reservar Lugar</a>
                                                     {%endif%}
+
+                                                    {%endif%}
+
                                                 {%endif%}
                                             {%endif%}
 
@@ -265,6 +276,50 @@ PotroTransporte
                                 </div>
                             </div>
                         </div>
+
+                    {%if Asistencia%}
+                    <div class="col-12 mt-3">
+                            <div class="card">
+                                <div class="card-header bg-warning text-center">Asistencia</div>
+                                <div class="card-body">
+
+
+
+
+                                        <div class="row">
+                                                        <div class="col-12">
+                                                        <div class="list-group">
+                                                            {%for asis in Asistencia %}
+                                                            <a class="list-group-item"><strong>Fecha:</strong> {{asis.fechaReserva}}</a>
+                                                            <a class="list-group-item"><strong>Ruta:</strong> {{asis.rutaFK}}</a>
+                                                            {%if asis.ida == True%}
+                                                            <a class="list-group-item"><strong>Ida:</strong> Si</a>
+                                                            {%else%}
+                                                            <a class="list-group-item"><strong>Ida:</strong> No</a>
+                                                            {%endif%}
+                                                            {%if asis.vuelta == True%}
+                                                            <a class="list-group-item"><strong>Vuelta:</strong> Si</a>
+                                                            {%else%}
+                                                            <a class="list-group-item"><strong>Vuelta:</strong> No</a>
+                                                            {%endif%}
+
+                                                            {%endfor%}
+
+
+                                                        </div>
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    {%endif%}
+
 
                     </div>
 
@@ -284,6 +339,10 @@ PotroTransporte
 
 
                         </div>
+
+
+
+
 
                         {%if request.user|has_group:"Administrativos"%}
                         <div class="col">
