@@ -120,6 +120,36 @@ PotroTransporte
                             <div class="card-header bg-warning text-center">Ruta asignada</div>
                             <div class="card-body">
 
+
+                                <div class="row">
+                                                        <div class="col-12">
+                                                        <div class="list-group">
+                                                            <a class="list-group-item"><strong>Operador:</strong> {{user.first_name}}</a>
+                                                            {%for d in user.operador_set.all%}
+                                                            <a class="list-group-item"><strong>Licencia:</strong> {{d.Licencia}}</a>
+                                                            <a class="list-group-item"><strong>telefono:</strong> {{d.telefono}}</a>
+                                                                {%for f in d.transporte_set.all%}
+                                                                  <a class="list-group-item"><strong>Transporte:</strong> {{f.Nombre}}</a>
+                                                                  <a class="list-group-item"><strong>Matricula:</strong> {{f.Matricula}}</a>
+                                                                     {%for fd in f.ruta_set.all%}
+                                                                          <a class="list-group-item"><strong>Ruta:</strong> {{fd.NombreRuta}}</a>
+                                                                          <a class="list-group-item"><strong>Horario:</strong> {{fd.Horario}}</a>
+
+                                                                        {%endfor%}
+
+                                                                {%endfor%}
+                                                            {%endfor%}
+
+
+
+
+                                                        </div>
+                                                        </div>
+
+                                                    </div>
+
+
+
                             </div>
                         </div>
 
