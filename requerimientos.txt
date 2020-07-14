@@ -1,1 +1,2 @@
-Django==2.2
+django==2.2
+django-qr-code
